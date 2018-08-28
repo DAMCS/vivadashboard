@@ -1,0 +1,72 @@
+html,body {
+    background: #2A3F54;
+    height: 100%;
+}
+
+#content {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: calc(100% - 30px);
+    width: 100%;
+    padding: 10px;
+    display: block;
+    margin-top: 30px;
+}
+
+#config-accordion{
+    margin-top:5%;
+    margin-left:3%;
+    height: 90%;
+    width:95%;
+}
+.accordionjs {
+    border-radius: 20px !important;
+    border: 0px !important;
+}
+
+#config_course_container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.config_course {
+    background: dodgerblue;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+}
+
+.config_course_name {
+    float: left;
+}
+
+.config_course_close {
+    float: right;
+}
+
+.config_course_close {
+    cursor: pointer;
+}
+
+hr {
+    border: 1px dashed #101010;
+}
+
+/**
+ * Stuff related to TAbs
+ */
+.tab-page {
+    background: white;
+    padding: 20px !important;
+    height: 100%;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.flex-center-align {
+    align-self: center;
+}

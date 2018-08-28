@@ -1,0 +1,69 @@
+{% include "newVMS/header.html" %}
+{% include "newVMS/navbar.html" %}
+	<!-- 
+        #content: The Main Content Section
+		Just add the page content here for a regular page or use .page DIVs for panel pages.
+		Use Bootstrap fluid layout for best effect.
+    -->
+    <div id="content">
+        <div class="page" id="page-guide-allot">
+            <!-- Panel Page Dashboard Content: -->
+            <div class="content" id="page-content">
+                <input type="hidden" id="tutor-id" value={{ userid }}>
+                <input type="hidden" id="course-id" value={{ course_id }}>
+
+                <div id="left-pane">
+                    <div class="box">
+                        <div class="container-4">
+                            <input type="search" id="search" placeholder="Search..." />
+                            <button class="icon">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="faculty-list">
+                    </div>
+                </div>
+                <div id="center-pane">
+                    <div class="box margin-left-2">
+                        <div class="container-4">
+                            <input type="search" id="search" placeholder="Search..." />
+                            <button class="icon">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="mapping-list" class="mCustomScrollbar" data-mcs-theme="3d">
+                    </div>
+                </div>
+                <div id="right-pane">
+                    <div class="box">
+                        <div class="container-4">
+                            <input type="search" id="search" placeholder="Search..." />
+                            <button class="icon">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="student-list"></div>
+                </div>
+                <div id="confirm-popup">
+                    <p style="color:white">Do you wish to confirm and send Mail?</p>
+                    <button type="button" class="btn btn-primary ok-button" id="confirm-ok-allot">OK</button>
+                    <button type="button" class="btn btn-primary cancel-button" id="confirm-cancel-allot">CANCEL</button>
+                </div>
+                <button type="button" class="btn btn-primary confirm-button" id="confirm-allot">CONFIRM</button>
+                <button type="button" class="btn btn-primary print-button" id="print-allot">PRINT</button>
+                <div id="map_data_table_wrapper">
+                    <div id = "map_data_header">
+                        <p style="text-align: center">PSG College of Technology, Coimbatore</p>
+                        <p style="text-align: center">Department of Applied Mathematics and Computational Sciences</p>
+                        <p style="text-align: center">M.Sc. Software Systems / X Semester Project Guide List 2018-2019</p>
+                        </div>
+                    <table id="map_data_table" border="1" align="center"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% include "newVMS/footer.html" %}

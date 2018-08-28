@@ -1,0 +1,121 @@
+{% include "newVMS/header.html" %}
+{% include "newVMS/navbar.html" %}
+
+<!-- This the main Content -->
+<div class="row" id="content">
+    <div class="col s10 offset-s1">
+        <div class="s12" id="config_tabs_header">
+            <ul class="tabs tabs-fixed-width">
+                <li class="tab col s3" data-page="0"><a class="active" href="#page1">Session and Class</a></li>
+                <li class="tab col s3" data-page="1"><a href="#page2">Tutor Setup</a></li>
+                <li class="tab col s3" data-page="2"><a href="#page3">Role Assignment</a></li>
+                <li class="tab col s3" data-page="3"><a href="#page4">Advanced</a></li>
+            </ul>
+        </div>
+        <div id="page1" class="col s12 tab-page">
+            <div class="col s6 offset-s3">
+                <form id="config_session">
+                    <div class="input-field col s12">
+                        <label for="session_year"> Session Year </label>
+                        <input type="text" class="form-control" name="session_year" id="session_year"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="input-field col s12">
+                        <select name="session_sem" id="session_sem">
+                            <option value="even">Even Semester</option>
+                            <option value="odd">Odd Semester</option>
+                        </select>
+                        <label for="session_sem"> Session Semester </label>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col s12">
+                        <label for="session_sem"> Courses </label>
+                        <div id="config_course_container">
+                        </div>
+                        <div class="row">
+                            <div class="col s4 input-field">
+                                <input type="text" name="config_add_course" id="config_add_degree" />
+                                <label for="config_add_degree"> Degree </label>
+                            </div>
+                            <div class="col s8 input-field">
+                                <input type="text" name="config_add_course_name" id="config_add_course_name" />
+                                <label for="config_add_course_name"> Course Name </label>
+                            </div>
+                        </div>
+                        <div class="row flex-container">
+                            <div class="col s6 input-field">
+                                <input type="text" name="config_add_course_short_name" id="config_add_course_short_name" />
+                                <label for="config_add_course_short_name"> Course Short Name </label>
+                            </div>
+                            <div class="col s6 flex-center-align">
+                                <button type="button" id="config_add_course" class="btn waves-effect waves-light">Add Course</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr size="2">
+                    <div class="col s6 offset-s3">
+                        <button type="button" class="btn btn-success col s12" id="config_page_1_submit"> Save </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="page2" class="col s12 tab-page">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table id="config-2-table">
+                        <thead>
+                            <tr>
+                                <th> Class </th>
+                                <th> # Students </th>
+                                <th> Tutor </th>
+                                <th> Group Mail</th>
+                            </tr>
+                        </thead>
+                        <tbody id="class-tutor-alloc-data">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-xs-offset-4">
+                    <input type="button" value="Save" id="config_page_2_submit" class="btn btn-success btn-large col-xs-12">
+                </div>
+            </div>
+        </div>
+        <div id="page3" class="col s12 tab-page">Test 3</div>
+        <div id="page4" class="col s12 tab-page">
+            <div class="col s6 offset-s3">
+                <form id="config_session">
+                    <!-- Information related to sharing of the sheet so that it can be accessed by someone using this application -->
+                    <div class="information-box red-text">
+                        Please note that if a new sheet is being used then, this URL has to be changed. <br />
+                        For the system to work, the new sheet has to be shared with the following email ID : {{ google_sheets_perm_user_email }}. <br />
+                        This allows the system to access the new sheets from the Code. <br />
+                        System will not sync otherwise. <br />
+                    </div>
+                    <div class="input-field col s12">
+                        <label for="session_year"> Faculty Form Response Sheet URL </label>
+                        <input type="text" class="form-control" name="faculty_form_url" id="faculty_form_url"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="input-field col s12">
+                        <label for="session_year"> Student Form Response Sheet URL </label>
+                        <input type="text" class="form-control" name="student_form_url" id="student_form_url"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="input-field col s12">
+                            <label for="session_year"> Report Submission Form Response Sheet URL </label>
+                            <input type="text" class="form-control" name="report_form_url" id="report_form_url"/>
+                        </div>
+                        <div class="clearfix"></div>
+                    <hr size="2">
+                    <div class="col s6 offset-s3">
+                        <button type="button" class="btn btn-success col s12" id="config_page_4_submit"> Save </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "newVMS/footer.html" %}

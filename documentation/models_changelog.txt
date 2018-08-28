@@ -1,0 +1,7 @@
+# Changelog to answer for why a particular change was made to the models.py
+# Use the following format for adding new rows.
+# <Date> <User> <Model> <Change>
+#   <Reason>
+
+14/06/2017 Srihare VMS_Session Changing pkey to AutoField instead of IntegerField
+    This will allow for auto increment of the session id instead of manual calculations.

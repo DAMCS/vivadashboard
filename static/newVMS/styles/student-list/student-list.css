@@ -1,0 +1,106 @@
+body{
+    height: 100%;
+    background-color: black;
+}
+
+#container{
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 5%;
+    background-color: #38383b;
+    width: 93%;
+    height: 88%;
+    border-radius: 15px;
+}
+
+.box{
+  width: 90%;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-left: 2%;
+  padding-right: 2%;
+
+}
+.search-container{
+    position: absolute;
+    width: 90%;
+}
+
+.search-container input#search{
+  width: 50%;
+  height: 30px;
+  background: #b1aea8;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  color: #fff;
+   padding-left: 20px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-transition: all .55s ease;
+  -moz-transition: all .55s ease;
+  -ms-transition: all .55s ease;
+  -o-transition: all .55s ease;
+  transition: all .55s ease;
+}
+
+.search-container input#search::-webkit-input-placeholder {
+   color: #fdfdfd;
+}
+.search-container input#search:-moz-placeholder { /* Firefox 18- */
+   color: #fdfdfd;
+}
+.search-container input#search::-moz-placeholder {  /* Firefox 19+ */
+   color: #fdfdfd;
+}
+.search-container input#search:-ms-input-placeholder {
+   color: #fdfdfd;
+}
+
+.w3-card-4{
+    margin-left: 2%;
+    margin-top: 5%;
+    margin-bottom: 0%;
+    width: 22.5%;
+    max-height: 20%;
+    float: right;
+    box-shadow: none !important;
+}
+div.w3-container{
+    background: #b1aea8 !important;
+    font-family: sans-serif;
+}
+.w3-container{
+    border: none !important;
+}
+.w3-green{
+    font-weight: bold !important;
+}
+
+.organization-name{
+    font-weight:600;
+}
+.student_popup{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    margin-left: 20%;
+    margin-top: 10%;
+    width: 60%;
+    overflow: auto;
+}
+.close {
+    color: #000000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}

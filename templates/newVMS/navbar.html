@@ -1,0 +1,115 @@
+
+
+<!-- #topbar: Top Bar Menu -->
+
+<ul id="topbar" class="on-click">
+	<li class="pull-left">
+		<h1 id="topbar-title">
+			<a href="/index/">
+                Viva Management System
+            </a>
+		</h1>
+	</li>
+    <li id="course-detail">
+        <span id="college-name">DAMCS@PSG-TECH  -  </span>
+        <span id="course-name">{{ course_name }}</span>
+        <span id="online-status"> </span>
+        <span id="sync_data">
+            <i class="fa fa-refresh" style="margin-left: 10px;cursor:pointer;" aria-hidden="true"></i>
+        </span>
+    </li>
+	<li class="parent pull-right">
+		<a href="page_index.html#" data-toggle="dropdown">
+            <i class="icon-user"></i>
+            <span>{{ username }}</span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><a href="#" id="logout">Logout</a></li>
+		</ul>
+	</li>
+    {%  if userrole == "Administrator" or userrole == "UserRoles.Admin"%}
+    <li class="parent pull-right">
+        <a href="/config/">
+            Configuration
+        </a>
+    </li>
+    {% endif %}
+    <li class="parent pull-right">
+		<a href="/about/">
+            About
+		</a>
+	</li>
+</ul>
+
+
+<!-- /#topbar: Top Bar Menu -->
+{%  if userrole != "Guide" %}
+<div class="wrapper">
+    <div id="extruderLeft" class="{title:'Pull To Explore'}">
+        <div class="content">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Quick Navigation
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/guide-select/">Guide Selection</a>
+                    </li>
+                    <!-- -->
+
+                    <li>
+                        <a href="/guide-allot/">Guide Allotment</a>
+                    </li>
+
+                    <li>
+                        <a href="/view-student/">View Student List</a>
+                    </li>
+
+
+                    <li>
+                        <a href="#" id="google-form-menu">Google Forms</a>
+                        <input type="hidden" id="is_idf_sent" value={{ is_idf_sent }}>
+                         <input type="hidden" id="is_rsdf_sent" value={{ is_rsdf_sent }}>
+
+                    </li>
+
+                     <li>
+                        <a href="#" id="internship_details_form" class ="indent">Internship Details</a>
+                    </li>
+
+                     <li>
+                        <a href="#" id="report_submission_details_form" class ="indent">Report Submission</a>
+                    </li>
+
+                     <li>
+                        <a href="#" id="faculty_details_form" class ="indent">Faculty Details</a>
+                    </li>
+
+                     <li>
+                        <a href="#" id="external_examiner_details_form" class ="indent">External Examiner Details</a>
+                    </li>
+
+                    {% if userrole == "Administrator" or userrole == "UserRoles.Admin"%}
+                    <li>
+                        <a href="/config/">Configuration</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<center>
+		<div id="confirmation-popup">
+            <p style="color:white" id="confirmation-content"></p>
+            <br>
+            <br>
+            <button type="button" class="btn btn-primary ok-button" id="confirm-ok-google-form">YES</button>
+            <button type="button" class="btn btn-primary cancel-button" id="confirm-cancel-google-form">NO</button>
+	 </div>
+	 </center>
+{% endif %}

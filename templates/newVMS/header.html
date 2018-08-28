@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<!-- Title: -->
+		<title>{{ pagename }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<!-- Bootstrap Styles -->
+		<!-- Bootstrap 2.0.4 -->
+		<link rel="stylesheet" href="/static/newVMS/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/bootstrap-table.css" />
+		<link rel="stylesheet" href="/static/newVMS/fonts/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="/static/newVMS/fonts/cabin/cabin.css" />
+		<!-- /Bootstrap Styles -->
+        <!-- JQUERY UI -->
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/jquery-ui/jquery-ui.min.css" />
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/jquery-ui/jquery-ui.structure.min.css" />
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/jquery-ui/jquery-ui.theme.min.css" />
+        <!-- /JQUERY UI -->
+        <!-- TOASTR -->
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/toastr.min.css" />
+        <!-- /TOASTR -->
+		<!-- Core Theme Styles -->
+		<!-- <link rel="stylesheet/less" href="media/styles/style.less" /> -->
+		<link rel="stylesheet" href="/static/newVMS/styles/style.css" />
+	    <link rel="stylesheet" href="/static/newVMS/styles/third-party/simple-sidebar.css"/>
+        <link rel="stylesheet" href="/static/newVMS/styles/third-party/mcustomscrollbar/jquery.mCustomScrollbar.css" />
+		<link rel="stylesheet" href="/static/newVMS/styles/third-party/w3/w3.css">
+		<!-- Generic Styles to be shared across pages -->
+		<link rel="stylesheet" href="/static/newVMS/styles/general-styles.css" />
+		<link href="/static/newVMS/styles/third-party/mbExtruder.css" media="all" rel="stylesheet" type="text/css">
+		<!-- TODO This is a missing theme. Probably safe to delete. @Ram-->
+        <!--<link href="/static/newVMS/styles/vBot/style.css" media="all" rel="stylesheet" type="text/css">-->
+
+        {% for file in css_files %}
+		<link rel="stylesheet" href="{{ file }}" />
+        {% endfor %}
+
+		<link rel="icon" type="image/png" href="/static/newVMS/res/logo/VMSLogo.png">
+
+        <!-- /Theme Styles -->
+		<!-- CMS/Framework styles & scripts -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+	</head>
+	<body class="sidebar-max">
+		<!--============================= Page Body =================================-->

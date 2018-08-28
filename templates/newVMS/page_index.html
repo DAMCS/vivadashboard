@@ -1,0 +1,124 @@
+{% include "newVMS/header.html" %}
+{% include "newVMS/navbar.html" %}
+	<!-- #content: The Main Content Section
+		Just add the page content here for a regular page or use .page DIVs for panel pages.
+		Use Bootstrap fluid layout for best effect.
+		
+		-->
+	<div id="content" class="contianer">
+		<div class="col-xs-10 col-xs-offset-1">
+			<div class="row">
+				<div class="col s12 m12 l12">
+					<div class="card">
+						<div class="card-content" id="tutorSummaryVueHolder">
+							<div class="card-title">
+								Summary
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th> Course </th>
+										<th> Tutor </th>
+										<th> Strength </th>
+									</tr>
+								</thead>
+								{% verbatim %}
+								<tbody id="tutor_data_container">
+									<tr v-for="tutor in tutors">
+										<td>{{ tutor.course_name }}</td>
+										<td>{{ tutor.tutor_name }}</td>
+										<td>{{ tutor.strength }}</td>
+									</tr>
+								</tbody>
+								{% endverbatim %}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row h-flexbox">
+				<div class="col s12 m6 l6 h-flexbox">
+					<div class="card flex-grow-1">
+						<div class="card-content" id="facultyAllotedListVue">
+							<div class="card-title">
+								Faculty Alloted List
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Faculty</th>
+										<th>Short Name</th>
+										<th>Alloted Students </th>
+									</tr>
+								</thead>
+								{% verbatim %}
+								<tbody>
+									<tr v-for="faculty in facultyList">
+										<td>{{ faculty.name }}</td>
+										<td>{{ faculty.short_name }}</td>
+										<td>{{ faculty.count }}</td>
+									</tr>
+								</tbody>
+								{% endverbatim %}
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l6 h-flexbox">
+					<div class="card flex-grow-1">
+						<div class="card-content" id="studentCompanyDistVue">
+							<div class="card-title">
+								Student Company Distribution
+							</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Organization</th>
+										<th>Students Count</th>
+									</tr>
+								</thead>
+								{% verbatim %}
+								<tbody>
+									<tr v-for="companyCount in companyCounts">
+										<td>{{ companyCount.name }}</td>
+										<td>{{ companyCount.count }}</td>
+									</tr>
+								</tbody>
+								{% endverbatim %}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s12 m6 l6 h-flexbox">
+					<div class="card flex-grow-1">
+						<div class="card-content">
+							<div class="card-title">
+								Student City Distribution
+							</div>
+							<div class="card-graph-container">
+								<canvas id="studentCityDistCanvas"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col s12 m6 l6 h-flexbox">
+					<div class="card flex-grow-1">
+						<div class="card-content">
+							<div class="card-title">
+								Student Viva Allotment Status
+							</div>
+							<div class="card-graph-container">
+								<canvas id="studentVivaAllotStatusCanvas"></canvas>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /#content: The Main Content Section -->
+
+<!-- /.container-fluid#container -->
+{% include "newVMS/footer.html" %}

@@ -1,0 +1,7 @@
+# TODO list for Srihare
+
+1. Change the display of companies from Pie chart to a table. To much data to display in a Graph UI Format.
+2. Display the data based in the Dashboard based on the current logged in user.
+3. Add the configuration page for setting Tutors for each course.
+4. Fix the configuration for current_session.
+5. Restructure the AJAX calls for Index page to appropriate folders.

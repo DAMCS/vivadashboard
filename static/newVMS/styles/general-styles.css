@@ -1,0 +1,14 @@
+.information-box {
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 2px dashed red;
+  font-weight: bold;
+  font-size: 1em;
+  word-wrap: break-word;
+}
+
+.red-text {
+  color: red;
+}

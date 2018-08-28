@@ -1,0 +1,85 @@
+body{
+    background: rgb(10, 10, 10) !important;rgb(10, 10, 10)
+}
+#content{
+	width: 70%;
+	height: 80%;
+	position:fixed;
+
+	background: #38383b;
+	padding: 10px;
+	margin-top: 5%;
+	margin-left: 100px;
+	border-radius: 10px;
+}
+#content ul{
+	position:relative;
+	padding-top: 20px;
+	font-family: Segoe UI;
+	color: #fdfdfd;
+	font-weight: bold;
+}		
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"]{
+	float:left;
+	margin-left: -20px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+  width: 30px;
+  height: 14px;
+  overflow: auto;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 0px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #7d7d7d;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 14px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+    background: #38383b;
+}
+

@@ -1,0 +1,87 @@
+{% include "newVMS/header.html" %}
+{% include "newVMS/navbar.html" %}
+<div class="row">
+	<div class="col-xg-10 col-lg-10 col-xg-offset-1 col-lg-offset-1">
+		<div class="custom-card">
+			<!-- Custom Vue Application to handle the page -->
+			<div id="vue_guide_select_app">
+				<div class="row heading" style="text-align: center;" v-if="currentDisplayMode == 'View'">
+					Guide List
+				</div>
+				<div class="row heading" style="text-align: center;" v-if="currentDisplayMode == 'Edit'">
+					Faculty List
+				</div>
+				<div class="row" id="navigation-button">
+					{% if 'UserRoles.Admin' == userrole %}
+                        <button type="button" class="btn btn-primary"  v-on:click="changeState">
+                            <span v-if="currentDisplayMode == 'View'">
+                                Edit
+                            </span>
+                            <span v-if="currentDisplayMode == 'Edit'">
+                                Save
+                            </span>
+                        </button>
+                    {% endif %}
+				</div>
+				<div class="clear-div"></div>
+				<!-- Now the main data table -->
+				<div class="row table-container" v-if="currentDisplayMode == 'Edit'">
+					<table class="table table-striped full-width-table">
+						<thead>
+							<tr>
+								<th class="header">Faculty Name</th>
+								<th class="header">Designation</th>
+								<th class="header">Core Competency</th>
+								<th class="header">Alias</th>
+								<th class="header variable">Is Guide?</th>
+							</tr>
+						</thead>
+						{% verbatim %}
+						<tbody id="table-scroll">
+							<tr v-for="faculty in filteredFacultyList">
+								<td>{{ faculty.name }}</td>
+								<td>{{ faculty.designation }}</td>
+								<td>{{ faculty.core_competency }}</td>
+								<td>{{ faculty.short_name }}</td>
+								<td class="input">
+									<label class="switch">
+										<input type="checkbox" class="checkbox pull-right" v-model="faculty.is_guide">
+										<div class="slider round"></div>
+									</label>
+								</td>
+							</tr>
+						</tbody>
+						{% endverbatim %}
+					</table>
+				</div>
+				<div class="row table-container" v-if="currentDisplayMode == 'View'">
+					<table class="table table-striped full-width-table">
+						<thead>
+							<tr>
+								<th class="header">Faculty Name</th>
+								<th class="header">Designation</th>
+								<th class="header">Core Competency</th>
+								<th class="header">Alias</th>
+								<th class="header variable">Students Allocated</th>
+								<th class="header variable">Recommended Count</th>
+							</tr>
+						</thead>
+						{% verbatim %}
+						<tbody id="table-scroll">
+							<tr v-for="faculty in filteredFacultyList">
+								<td>{{ faculty.name }}</td>
+								<td>{{ faculty.designation }}</td>
+								<td>{{ faculty.core_competency }}</td>
+								<td>{{ faculty.short_name }}</td>
+								<td>{{ faculty.allocated_count }}</td>
+								<td>{{ recommendedCount }}</td>
+							</tr>
+						</tbody>
+						{% endverbatim %}
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>	
+{% include "newVMS/footer.html" %}

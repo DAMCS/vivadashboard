@@ -1,0 +1,22 @@
+        <script src="/static/newVMS/js/third-party/vue/vue.js"></script>
+        <script src="/static/newVMS/js/third-party/jquery-3.1.1.min.js"></script>
+        <script src="/static/newVMS/js/third-party/jquery-ui.min.js"></script>
+        <script src="/static/newVMS/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/static/newVMS/js/third-party/bootstrap-table.min.js"></script>
+        <script type="text/javascript" src="/static/newVMS/js/third-party/jquery.hoverIntent.min.js"></script>
+        <script type="text/javascript" src="/static/newVMS/js/third-party/jquery.mb.flipText.js"></script>
+        <script type="text/javascript" src="/static/newVMS/js/third-party/mbExtruder.js"></script>
+        <script type="text/javascript" src="/static/newVMS/js/third-party/mcustomscrollbar/jquery.mCustomScrollbar.js"></script>
+        <!-- TOASTR -->
+        <script src="/static/newVMS/js/third-party/toastr/toastr.min.js"></script>
+        <script src="/static/newVMS/js/third-party/toastr/toastr.config.js"></script>
+        <!-- Core Custom Libraries -->
+        <script src="/static/newVMS/js/application.js"></script>
+        <!-- Helper JS Libs -->
+        <script src="/static/newVMS/js/common-utils/config-helper.js"></script>
+        <!-- Custom JS files used in the template -->
+        {% for file in js_files %}
+            <script src="{{ file }}" type="text/javascript"></script>
+        {% endfor %}
+    </body>
+</html>

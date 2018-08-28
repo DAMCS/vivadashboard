@@ -1,0 +1,322 @@
+body{
+    background: #2A3F54;
+    line-height:1.2 !important;
+}
+#content{
+    height: 88%;
+    width: 100%;
+}
+
+
+#left-pane{
+    position:absolute;
+    width:25%;
+    height:100%;
+    float:left;
+    border:1px solid #38383b;
+    border-radius: 10px;
+    background-color:#23221f;
+    margin :40px 40px;
+}
+
+#confirm-popup{
+    position: absolute;
+    margin-left: 40%;
+    margin-top: 200px;
+    width: 21%;
+    height: 20%;
+    float: left;
+    border: 1px solid #38383b;
+    border-radius: 10px;
+    background-color: #23221f;
+}
+#center-pane{
+    position:absolute;
+    margin-left:35%;
+    margin-top :40px;
+    width:30%;
+    height:90%;
+    float:left;
+    border:1px solid #38383b;
+    border-radius: 10px;
+    background-color: #23221f;
+
+}
+
+#right-pane{
+    position:absolute;
+    margin-left:70%;
+    margin-top :40px;
+    width:25%;
+    height:100%;
+    float:left;
+    border:1px solid #38383b;
+    border-radius: 10px;
+    background-color: #23221f;
+}
+#faculty-list{
+    max-height: 85%;
+}
+#student-list{
+    max-height: 85%;
+}
+#mapping-list{
+    max-height: 85%;
+}
+
+.mCSB_inside > .mCSB_container {
+    margin-right: 10px !important;
+}
+.card-margin{
+    margin-right : 20px ;
+    margin-left : 20px ;
+    margin-top : 10px ;
+    margin-bottom : 10px ;
+}
+.box{
+  width: 90%;
+  height: 30px;
+  margin-top: 10px;
+    margin-bottom: 30px;
+  padding-left: 7.5%;
+  padding-right: 7.5%;
+
+}
+
+/* Search 4 - appear looking glass */
+.container-4{
+    position: absolute;
+	width: 90%;
+}
+.container-4 input#search{
+  width: 82%;
+  height: 30px;
+  background: #b1aea8;
+  border: none;
+  font-size: 10pt;
+  float: left;color: #fff;
+   padding-left: 20px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  -webkit-transition: all .55s ease;
+  -moz-transition: all .55s ease;
+  -ms-transition: all .55s ease;
+  -o-transition: all .55s ease;
+  transition: all .55s ease;
+}
+
+.container-4 input#search::-webkit-input-placeholder {
+   color: #65737e;
+}
+.container-4 input#search:-moz-placeholder { /* Firefox 18- */
+   color: #65737e;
+}
+.container-4 input#search::-moz-placeholder {  /* Firefox 19+ */
+   color: #65737e;
+}
+.container-4 input#search:-ms-input-placeholder {
+   color: #65737e;
+}
+
+.container-4 button.icon{
+    position: absolute;
+  -webkit-border-top-right-radius: 15px;
+  -webkit-border-bottom-right-radius: 15px;
+  -moz-border-radius-topright: 15px;
+  -moz-border-radius-bottomright: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border: none;
+  background: #b1aea8;
+  height: 30px;
+  width: 40px;
+  color: #4c4e50;
+  opacity: 0;
+  font-size: 10pt;
+
+}
+  /* ANIMATION EFFECT */
+  .container-4:hover button.icon, .container-4:active button.icon, .container-4:focus button.icon{
+    outline:none;
+    opacity: 1;
+    margin-left: -50px;
+    }
+
+  .custom-color-cream{
+      background-color: #c4bdbd ;
+   }
+  .custom-color-warning{
+      background-color: #AF9A4C ;
+  }
+  .custom-color-danger{
+      background-color: #AF5B4C;
+  }
+  .padding-bottom-10{
+        padding-bottom: 10px !important;
+  }
+  .custom-card-margin{
+      margin-right: 15px!important;
+      margin-left: 15px!important;
+      margin-bottom: 10px!important;
+  }
+
+
+.allot-status{
+    float: right;
+    width: 27%;
+    height: 25px;
+    border-radius: 10px;
+    background-color: #636365;
+    font-size: small;
+    color: #d2c9c5;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 25px;
+}
+.allot-now-div{
+    display: table-cell;
+    background-color: #4b4a46;
+     vertical-align: top;
+    cursor: pointer;
+
+}
+.vertical-text{
+    writing-mode: vertical-lr;
+    -webkit-writing-mode: vertical-lr;
+    color:#f6eee5;
+    font-size: small;
+    font-weight:300;
+    margin-left: 10px;
+    margin-top:5px;
+    width: 10%
+
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid #f6eee5;
+  margin-left: 13px;
+}
+
+ .area-of-interest{
+    width: 100%;
+ }
+ .faculty-detail{
+     width: 85%;
+     /*float: left;*/
+     display:table-cell;
+    /* padding-bottom: 15px;*/
+ }
+
+.stud-grid{
+    float: left;
+    width: 30%;
+    height: 30px;
+    border-radius: 10px;
+    background-color: #636365;
+    font-size: medium;
+    margin-top: 2%;
+    margin-bottom:2%;
+    margin-left: 2%;
+    color:#d2c9c5;
+    text-align: center;
+}
+.close-btn{
+    float: right;
+    position: relative;
+    top: -5px;
+    background: #e63636;
+    left: 2px;
+    font-size: x-small;
+    padding: 1px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+.margin-left-2{
+  margin-left:2.5%;
+}
+
+.empty-container{
+    height:75px;
+}
+
+/*overriding mscroller styles */
+.mCSB_scrollTools{
+    top: 5% !important;
+}
+
+.right-arrow {
+
+    width: 0;
+    height: 0;
+    position: absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #dbdbe7;
+    margin-left: 4%;
+    margin-top: 4%;
+}
+
+.dotted-divider{
+  border:none;
+  border-top:1px dotted #f00;
+  color:#fff;
+  background-color:#fff;
+  height:1px;
+  width:50%;
+}
+
+.dash-line{
+  border: 0 none;
+  border-top: 2px dashed #322f32;
+  background-color: #c4bdbd;
+  margin:0px;
+  padding-bottom: 10px;
+  height:0;
+}
+
+.mapped-stud-list{
+    padding-bottom: 10px !important;
+}
+
+.organization-name{
+    font-size: small;
+    clear:both;
+    font-weight: 600;
+    color:#912929
+}
+
+.student-roll{
+    float:right;
+
+}
+
+.confirm-button{
+    position: absolute;
+    left:36%;
+    bottom:-7%;
+}
+.print-button {
+    position: absolute;
+    left: 59%;
+    bottom: -7%;
+}
+
+.ok-button{
+    position: absolute;
+    left:10%;
+    top:55%;
+    border-radius:10px;
+}
+.cancel-button {
+    position: absolute;
+    left: 60%;
+    top: 55%;
+    border-radius:10px;
+}
+
+@page{margin:0px auto;}

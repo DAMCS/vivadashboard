@@ -1,0 +1,66 @@
+body{
+    background-color: #2A3F54;
+}
+
+html {
+    font-family: 'Roboto', 'Josefin Sans', sans-serif !important; 
+}
+
+#content {
+    margin-top: 50px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+#content table th, #content table tr {
+    text-align: left;
+}
+
+#studentCompanyDist {
+    height: 250px;
+}
+
+#studentCityDistribution {
+    height: 250px;
+}
+
+#studentVivaAllotStatus {
+    height: 250px;
+}
+
+#faculty-alloted-list{
+    height: 315px;
+}
+
+.card-color {
+    background: #3a4450;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Stuff related to Flex box layout */
+.h-flexbox {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+/* Stuff related to Cards */
+.card-content {
+    display: block;
+    height: 100%;
+    max-height: 700px;
+    overflow-y: auto;
+}

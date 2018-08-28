@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/png" href="../img/tab.ico">
+    <title>Hack[in]</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+      <link rel="stylesheet" href="../ui/jquery-ui.css">
+
+      <style>
+
+         .overlay {
+                height: 0%;
+                width: 100%;
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: rgb(0,0,0);
+                background-color: rgba(0,0,0, 0.9);
+                overflow-y: hidden;
+                transition: 0.5s;
+            }
+
+            .overlay-content {
+                position: absolute;
+                margin: 5%;
+                width: 90%;
+                height:85%;
+
+            }
+          .modal{color: darkslategray;}
+          #repondrer{position: relative;}
+      </style>
+    <!-- Custom styles for this template -->
+    <link href="../css/black.css" rel="stylesheet">
+
+
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../js/jquery.min.js">
+    </script>
+    <!-- Slide JavaScript -->
+    <script src="../ui/jquery-ui.js"></script>
+
+
+  </head>
+
+  <body id="page-top">
+  <div id="wrapper" >
+<!--
+        ******************************************************************************
+                                    DB work - show participant details
+        ******************************************************************************
+-->
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+
+                <li>
+                    <a href="" data-toggle="modal" data-target="#nameModal">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+<!--Enter name from db-->
+                        &ensp;&ensp;&ensp;&ensp;NAME</a>
+                </li>
+                <li>
+                    <a href="" data-toggle="modal" data-target="#currencyModal">
+<!--How much currency he has                      -->
+                        <i class="fa fa-btc" style="" aria-hidden="true"></i>
+                                &ensp;&ensp;&ensp;&ensp;5000</a>
+                </li>
+                <li>
+<!--Max level he has cleared-->
+                    <a href=""  data-toggle="modal" data-target="#lineModal"><i class="fa fa-line-chart" aria-hidden="true"></i>
+                        &ensp;&ensp;&ensp;&ensp;LEVELS CLEARED</a>
+                </li>
+                <li>
+<!--Country he represents-->
+                    <a href=""  data-toggle="modal" data-target="#countryModal"><i class="fa fa-globe" aria-hidden="true"></i>
+                        &ensp;&ensp;&ensp;&ensp;COUNTRY
+                    </a>
+                </li>
+                <li style="position: absolute;bottom: 0px; border-top: 2px solid white">
+                     <a href="#menu-toggle"  id="menu-toggle" class="button" style="background-color: rgba(2, 8, 6, 0.91);margin: 0;content: TOGGLE VIEW"
+                        data-toggle="tooltip"  title="Toggle">
+                         <span></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Navigation bar top-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" style="background-color: #0f0e0e">
+      <div class="container-fluid">
+        <img style="height: 30px;width: 30px;"  src="../img/hackingLogo.png"/>
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"> Hack[in]</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="" data-toggle="modal" data-target="#exampleModalLong">Rules</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="../index.html">Sign out</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+
+      
+      <!--   slides-->
+      <div class="text-center">
+
+          <div class="toggler text-center">
+
+
+            <div id="intro" class="ui-widget-content ui-corner-all" style="display: block;padding: 1em;">
+                <p>
+                    The hacker makes his first move and locks you in a puzzle.<br>Get released by solving the 10 clues put forth by the
+                    hackers. Skipping clues can have an impact on how you progress further.<br>
+                    Start fighting to unveil the hackers and save the world from anarchy and chaos.
+                </p>
+                <button class="btn btn-default" id="eurus"> <i class="fa fa-unlock-alt" style="font-size: 1em;"></i> </button>
+            </div>
+
+<!--
+        ******************************************************************************
+                                    DB work - insert questions in respective divs
+        ******************************************************************************
+-->
+
+            <div id="effect1" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 1</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+            </div>
+
+
+
+              <div id="effect2" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 2</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect3" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 3</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect4" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 4</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect5" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 5</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect6" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 6</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect7" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 7</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect8" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 8</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+              <div id="effect9" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 9</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div><div id="effect10" class="ui-widget-content ui-corner-all">
+                <h3 class="ui-widget-header ui-corner-all">Clue 10</h3>
+                <p>
+                  Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+                </p>
+              </div>
+          </div>
+
+      </div>
+      <!--      slide end-->
+      <div class="text-center" id="repondrer" style="width: 30vw;margin-left: 35vw;">
+
+        <input type="text" id="repondre"  value="" placeholder="Answer"/>
+            <br>
+
+            <div class="row">
+
+            <div class="col-3">
+                <button class="btn btn-default" id="button">Check</button>
+            </div>
+            <div class="col-6">
+                 <a href="#zephyr" id="zephyr_trigger" class="btn btn-circle btn-error js-scroll-trigger">
+                    <i class="fa fa-angle-double-down animated"></i>
+                 </a>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-red" id="button2"> <i class="fa fa-exclamation-triangle"></i> Skip</button>
+            </div>
+
+            </div>
+
+      </div>
+
+
+
+
+    <section  class="content-section text-center" id="next-step">
+        <h3></h3>
+        <button class="btn btn-default btn-lg"  id="zephyr">
+            <i class="fa fa-plug" style="font-size: 90px;"></i>
+        </button>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container text-center">
+          <p>Login 2018<br>Hack[in]</p>
+          <br>
+      </div>
+    </footer>
+
+
+
+    <!-- I wonder what this does -->
+
+
+
+        <div id="house" class="overlay">
+
+          <div class="overlay-content">
+            <iframe id="game" src = "house/index.html" style="height:100%;width:100%;"></iframe>
+          </div>
+        </div>
+      <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+      <!-- Modals -->
+
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Rules</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <p>
+                    The hacker makes his first move and locks you in a puzzle.<br>Get released by solving the 10 clues put forth by the
+                    hackers. Skipping clues can have an impact on how you progress further.<br>
+                    Start fighting to unveil the hackers and save the world from anarchy and chaos.
+                </p>
+                Each skip consumes 10 hackeriums
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="currencyModal" tabindex="-1" role="dialog" aria-labelledby="currencyModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="currencyModalLongTitle">Hackeriums</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            The government has provided you a certain amount of hackeriums to aid you in your battles.
+              <br>
+              Hackeriums can be used to bypass security and challenges, but you only have a finite amount of them
+              Use them wisely.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="nameModal" tabindex="-1" role="dialog" aria-labelledby="currencyModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="currencyModalLongTitle">Profile</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="lineModal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalTitle">Levels Cleared</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+		<p id="mesg"> Shows you the number of levels you have completed. </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="countryModal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalTitle">Country</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+		<p id="mesg"> Displays the country you're representing. </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Slide JavaScript -->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- storage js -->
+    <script src="house/js/libs/jstorage.js"></script>
+    <!-- Custom scripts animation -->
+    <script src="../js/black.min.js"></script>
+      <script>
+       $('.tab a').on('click', function (e) {
+
+              e.preventDefault();
+
+              $(this).parent().addClass('active');
+              $(this).parent().siblings().removeClass('active');
+
+              target = $(this).attr('href');
+
+              $('.tab-content > div').not(target).hide();
+
+              $(target).fadeIn(600);
+
+            });
+    		$("#menu-toggle").click(function(e) {
+        	e.preventDefault();
+        	$("#wrapper").toggleClass("toggled");
+    		});
+
+      </script>
+
+      <script>
+        var clueDecrypt = "haha";     //This will be displayed after 1 min (clue decryption)
+        var clueCount = 1;
+        var flag = false;
+        var clueReady = 1;
+        var clueOver = false;
+        $('#zephyr').click(function(){
+           clueOver = true;
+           document.getElementById("house").style.height = "100%";
+           document.getElementById("game").src="house/index.html";
+        });
+
+        $(document).ready(function() {
+
+              var scavenge = window.localStorage.getItem("scavenge");
+              if(scavenge == "completed"){
+                document.getElementById("eurus").style.display="none";
+
+                $('#zephyr').show();
+              }
+
+              var interval = setInterval( function() {
+                        if(document.getElementById("house") == null && flag ==false)
+                            {
+                                flag =true;
+                                window.alert("Congrats! You have passed this level");
+                                window.location = "../home/index.html";
+                            }
+
+                        }, 1000);
+            // run the currently selected effect
+            function runEffect() {
+              // get effect type from
+                var selectedEffect = 'fold';
+                var options = {};
+
+                if( $("#repondre").val() === ""){
+                    // console.log($("#repondre").val());
+                    selectedEffect = 'shake';
+                    var temp = '#effect'+clueCount;
+                    $(temp).effect( selectedEffect, options, 500, callback );
+
+                }
+
+                else{
+
+                // Run the effect
+                    var temp = '#effect'+clueCount;
+                    $(temp).effect( selectedEffect, options, 500, callback );
+
+                    if (clueCount <10){
+                        clueCount = clueCount +1;
+                        document.getElementById("repondre").value = "";
+                    }
+                    else{
+                        $('#zephyr').show();
+                        $('#zephyr_trigger').show();
+                        $('#next-step')[0].scrollIntoView();
+//                          $('#zephyr').slideDown();
+
+//
+                        $('html, body').animate({
+                            scrollTop: $('#next-step').offset().top+400
+                        },'slow');
+                    }
+                    temp = '#effect'+clueCount;
+                    $(temp).delay(800).slideDown();
+                }
+
+
+            };
+
+
+            function runSkipEffect() {
+              // get effect type from
+                var selectedEffect = 'fold';
+                var options = {};
+
+
+
+                    selectedEffect = 'explode';
+                    var temp = '#effect'+clueCount;
+                    $(temp).effect( selectedEffect, options, 500, callback );
+
+
+
+
+                    if (clueCount <10){
+                        clueCount = clueCount +1;
+                        document.getElementById("repondre").value = "";
+                    }
+                    else{
+                        window.localStorage.setItem("scavenge", "completed");
+
+                        $('#zephyr').show();
+                        $('#zephyr_trigger').show();
+                        $('#next-step')[0].scrollIntoView();
+//                          $('#zephyr').slideDown();
+
+//
+                        $('html, body').animate({
+                            scrollTop: $('#next-step').offset().top+400
+                        },'slow');
+                    }
+                    temp = '#effect'+clueCount;
+                    $(temp).delay(800).slideDown();
+                };
+
+
+            // Callback function to bring a hidden box back
+            function callback() {
+              setTimeout(function() {
+                $( "#effect" ).removeAttr( "style" ).hide().fadeOut();
+              }, 1000 );
+            };
+
+            // Set effect from select menu value
+            $( "#button" ).on( "click", function() {
+              runEffect();
+
+//                #####################################################
+//                                Check Answer from db
+//                #####################################################
+              // Show Clue for decryption (next clue)
+              setTimeout(function(){
+                  if(clueReady == clueCount){
+                    window.alert("Key for clue :"+clueCount+"\n"+clueDecrypt );
+                    clueReady ++;
+                  }
+
+              },60000);
+              return false;
+
+            });
+
+            $( "#button2" ).on( "click", function() {
+//                #####################################################
+//                                Deduct Hackeriums
+//                #####################################################
+
+                    $.fn.customConfirm = function(options) {
+
+                        var defaults={
+                            'title': 'Confirmation',
+                            'message': 'Are you sure?',
+                            'okTitle': 'Yes',
+                            'cancelTitle': 'No',
+                            'onconfirm': null,
+                            'oncancel': null,
+                        };
+                        var parameters=$.extend(defaults, options);
+
+                        var confirmationWindowHtml = '<div id="window-confirm">'
+                                              + '<h3 class="title-confirm">' + parameters.title + '</h3>'
+                                              + '<p class="msg-confirm">' + parameters.message + '</p>'
+                                              + '<button class="cancel-confirm btn btn-default">' + parameters.cancelTitle + '</button>'
+                                              + '<button class="valid-confirm btn btn-error">' + parameters.okTitle + '</button>'
+                                             + '</div>';
+
+                        $("body").append(confirmationWindowHtml);
+
+                        $('#window-confirm').fadeIn();
+
+                        $('#window-confirm').find(".cancel-confirm").on('click', function() {
+                            $('#window-confirm').fadeOut( function(){
+                                $('#window-confirm').remove();
+                                if( parameters.oncancel ){
+                                    parameters.oncancel.call();
+                                }
+                            });
+                        });
+
+                        $('#window-confirm').find(".valid-confirm").on('click', function() {
+                            $('#window-confirm').fadeOut( function(){
+                                $('#window-confirm').remove();
+                                if( parameters.onconfirm ){
+                                    parameters.onconfirm.call();
+                                }
+                            });
+                        });
+                    };
+
+
+                $('html').customConfirm({
+                                        'okTitle': 'Yes I am sure',
+                                        'oncancel': function()
+                                        {
+//                                       exit
+                                        },
+                                        'onconfirm': function()
+                                        {
+                                          runSkipEffect();
+                                          // Show Clue for decryption
+                                          setTimeout(function(){
+                                              if(clueReady == clueCount && clueOver==false && clueReady<=10){
+                                                window.alert("Key for clue :"+clueCount+"\n"+clueDecrypt );
+                                                clueReady ++;
+                                              }
+                                              else
+                                                clueReady++;
+
+                                              console.log(clueReady);
+                                          },60000);  //60000 is 1 minute
+                                          return false;
+
+                                          /** do more things **/
+                                        }
+                                        });
+
+
+
+//                $('#zephyr_trigger').show();
+//                $('#zephyr').show();
+//                        $('html, body').animate({
+//                            scrollTop: $('#next-step').offset().top+400
+//                        },'slow');
+            });
+          } );
+
+          $("#eurus").click(function(){
+
+              var sEffect='transfer';
+              options = { to: "#eurus", className: "ui-effects-transfer" };
+              $("#intro").effect(sEffect,options,500,callback);
+              $("#intro").slideUp(400);
+              $("#effect1").slideDown();
+
+              $("#repondrer").show();
+                $("#repondre").show();
+
+              function callback() {
+                setTimeout(function() {
+                  $( "#intro" ).removeAttr( "style" ).hide().fadeOut(100);
+                }, 1000 );
+
+              // Show Clue for decryption
+              setTimeout(function(){
+                  if(clueReady == clueCount && clueOver==false && clueReady<=10){
+                    window.alert("Key for clue :"+clueCount+"\n"+clueDecrypt );
+                    clueReady++;
+                  }
+              },60000);
+            };
+
+          });
+    </script>
+    <script>
+
+
+    </script>
+  </body>
+
+</html>

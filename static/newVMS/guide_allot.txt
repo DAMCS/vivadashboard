@@ -1,0 +1,65 @@
+jQuery(document).ready(function ($) {
+    $.ajax({
+       url: '/ajax/GetStudentList',
+
+       error: function(err) {
+          alert("Get Student List Ajax Error " +err.responseText);
+       },
+       success: function(data) {
+            UpdateStudentList(data)
+       },
+       type: 'GET'
+    });
+    $.ajax({
+       url: '/ajax/GetFacultyList',
+
+       error: function(err) {
+          alert("Get Faculty List Ajax Error " +err.responseText);
+       },
+       success: function(data) {
+            UpdateFacultyList(data)
+       },
+       type: 'GET'
+    });
+
+
+});
+
+function UpdateStudentList(data){
+    var student;
+    $.each(data.result, function(i, item) {
+          student = '<div class="w3-card-4 card-margin"> <header class="w3-container w3-green"> <h4>'+item.roll_no+'</h4> </header> <div class="w3-container custom-color-cream"> <div class="pull-left"> <strong>'+item.name+'</strong> </div> <div class="area-of-interest pull-left"> <small>'+item.domain_key_word+'</small> </div> </div> <button class="w3-btn-block w3-dark-grey">Drag me </button></div>'
+          $('#student-list').append(student);
+    });
+    $("#student-list").mCustomScrollbar();
+}
+
+
+function UpdateFacultyList(data){
+    var faculty;
+    $.each(data.result, function(i, item) {
+          faculty = '<div class="w3-card-4 card-margin"><header class="w3-container w3-green"><h4>'+item.short_name+'<span class="allot-status">3/6 </span> </h4> </header> <div class="w3-container custom-color-cream"> <div class="core-competency pull-left"> <strong>'+item.core_competency+'</strong> </div> <div class="area-of-interest pull-left"> <small>'+item.areas_of_interest+'</small> </div> </div> <button class="w3-btn-block w3-dark-grey">Allot Now -> </button></div>';
+          $('#faculty-list').append(faculty);
+    });
+    $("#faculty-list").mCustomScrollbar();
+
+    $("#faculty-list").on('click', 'button', function(){
+         AddFacultyToMappingPane($(this));
+    });
+}
+
+var dict = {};
+
+$("#mapping-list").on('click','button',function () {
+    alert($(this));
+});
+
+function AddFacultyToMappingPane(cmp){
+
+        var short_name = cmp.prev().prev().find('h4').text().trim().substr(0,3);
+        var allotted_status = cmp.prev().prev().find('span').text().trim();
+        var faculty = '<div class="w3-card-4 card-margin"> <header class="w3-container w3-green"> <h3>'+short_name+'<span class="allot-status">'+allotted_status+'</span> </h3> </header> <div class="w3-container custom-color-cream empty-stud-list"></div> <button class="w3-btn-block w3-dark-grey"><- Done Alloting</button> </div>'
+        $('#mCSB_3_container').append(faculty);
+        cmp.parent().hide();
+        dict[short_name] = cmp.parent();
+}
