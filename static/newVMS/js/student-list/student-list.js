@@ -127,6 +127,7 @@ function UpdateStudentList(data){
                             '</div>' +
                         '</div>';
                     $('.student_popup').html(student_record);
+                    $('#student-list').css("filter","blur(20px)");      //blur effect
                     $('.student_popup').css("display","block");
                     $(".student_popup").show();
 
