@@ -393,7 +393,7 @@ class GuideStudentMap(models.Model):
         Tutor,
         on_delete=models.CASCADE,
         default="-1"
-    )
+        )
     class Meta:
         """
         Class that contains the information about the Table.
