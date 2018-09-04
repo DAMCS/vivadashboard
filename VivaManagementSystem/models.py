@@ -13,12 +13,12 @@ class VMS_Session(models.Model):
     Lot of things have to "belong" to a particular Session.
     """
     SEM_CHOICES = (
-        ('odd', 'odd'),
+        ('odd' , 'odd' ),
         ('even', 'even')
     )
-    session_id = models.IntegerField(primary_key=True)
-    session_year = models.IntegerField(default=0)
-    session_sem = models.CharField(max_length=5, choices=SEM_CHOICES)
+    session_id = models.IntegerField(primary_key=True,help_text='Session ID')
+    session_year = models.IntegerField(default=0,help_text='Session Year')
+    session_sem = models.CharField(default=SEM_CHOICES[0],max_length=5, choices=SEM_CHOICES,help_text='Semester Choices')
     is_current = models.BooleanField(default=False)
     class Meta:
         """
@@ -51,6 +51,7 @@ class Faculty(models.Model):
         Meta data about the Faculty Table.
         """
         db_table = 'Faculty'
+        ordering = ['employee_id']
 
 class Course(models.Model):
     """
@@ -60,15 +61,28 @@ class Course(models.Model):
     2. Each course co-ordinator is associated with a particular course.
     3. Each tutor is associated with a particular course.
     """
+    COURSE_NAME = (
+        ('Applied Mathematics', 'Applied Mathematics'),
+        ('Software Systems', 'Software Systems'),
+        ('Theoretical Computer Science','Theoretical Computer Science'),
+        ('Data Science','Data Science')
+    )
+    SHORT_NAME = (
+        ('AM', 'AM'),
+        ('SWS', 'SWS'),
+        ('TCS','TCS'),
+        ('DS','DS')
+    )
     course_id = models.AutoField(primary_key=True)
-    degree_name = models.CharField(max_length=10)
-    course_name = models.CharField(max_length=50)
-    short_name = models.CharField(max_length=5, default="none")
+    degree_name = models.CharField(max_length=10, default='MSc')
+    course_name = models.CharField(max_length=50, choices=COURSE_NAME, default=COURSE_NAME[1])
+    short_name = models.CharField(max_length=5, choices=SHORT_NAME, default=SHORT_NAME[1])
     class Meta:
         """
         Class that contains the information about the Table.
         """
         db_table = 'Course'
+        ordering = ['course_id']
 
 class Student(models.Model):
     """
@@ -90,12 +104,12 @@ class Student(models.Model):
         ('Pending', ReportSubmissionStatus.Pending),
         ('Submitted', ReportSubmissionStatus.Submitted),
     )
-    # PKEY
+    # Primary Key
     roll_no = models.CharField(max_length=8, primary_key=True)
-    # FKEY
+    # Foreign Key
     course = models.ForeignKey(Course,on_delete=models.CASCADE)
     session = models.ForeignKey(VMS_Session, on_delete=models.CASCADE, default=None, null=True)
-    # OThers
+    # Others
     semester = models.IntegerField(choices=SEMESTER_CHOICES)
     name = models.CharField(max_length=100)
     email_id = models.EmailField(default="Invalid")
@@ -117,6 +131,7 @@ class Student(models.Model):
         Class that contains the information about the Table.
         """
         db_table = 'Student'
+        ordering = ['roll_no']
 
 class Batch(models.Model):
     """
@@ -147,7 +162,7 @@ class Tutor(models.Model):
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     #MADE CHANGES DURING MIGRATION
-    isIDFSent=models.IntegerField(null=True)
+    isIDFSent = models.IntegerField(null=True)
     isRSDFSent = models.IntegerField(null=True)
     class Meta:
         """
