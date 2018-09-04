@@ -3,8 +3,7 @@ import json
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
 from django.http import JsonResponse
 from django.core import serializers
-from VivaManagementSystem.models import GuideStudentMap, Faculty, Student, Tutor
-from VivaManagementSystem.models import VMS_Session
+from VivaManagementSystem.models import GuideStudentMap, Faculty, Student, Tutor, VMS_Session
 
 class UpdateAllottedGuideListAJAXHandler(IAJAXHandler):
     def handle_request(self, http_request):
