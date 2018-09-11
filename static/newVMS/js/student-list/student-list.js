@@ -35,13 +35,14 @@ $(document).ready(function(){
 
 function closeModal() {
     $('.student_popup').css("display","none");
+    $('#student-list').css("filter","blur(0px)");
 }
 
 
 function UpdateStudentList(data){
     var student_record;
     $.each(data, function(i, item) {
-        student_record = '<div class="w3-card-4 student" id="w3-card-4"><header class="w3-container w3-green"><h3>'+item.name+'</h3><h5 id="roll_no">'+item.roll_no+'</h5></header>'+'<div class="w3-container">'+'<p class="organization-name">'+ item.organization_name+', '+item.address_city+'<br>'+ item.phone_number+ '<br>'+'</p></div></div>';
+        student_record = '<div class="w3-card-4 student" id="w3-card-4">'+'<div class="image"></div>'+'<header class="w3-container"><h3>'+item.name+'</h3><h5 id="roll_no">'+item.roll_no+'</h5>'+'<p class="organization-name">'+ item.organization_name+', '+item.address_city+'<br>'+ item.phone_number+ '<br>'+'</p></div>';
         $('#student-list').append(student_record);
     });
     $(".student").click(function() {
@@ -55,10 +56,10 @@ function UpdateStudentList(data){
                     student_record =
                         '<span class="close" onclick="closeModal()">&times;</span>' +
                         '<div class="w3-card-16 student_detail" id="w3-card-16">' +
-                            '<header class="w3-container w3-green">' +
+                            '<div class="w3-container">' +
                                 '<h3>'+item.name+'</h3>' +
-                                '<h5>'+item.roll_no+'</h5></header>'+'' +
-                            '<div class="w3-container">'+'' +
+                                '<h5>'+item.roll_no+'</h5>'+'' +
+                                 '' +
                                 '<table style="width:100%">' +
                                     '<tr>' +
                                         '<td>' +
@@ -124,11 +125,10 @@ function UpdateStudentList(data){
                                         '</td>' +
                                     '</tr>' +
                                 '</table>' +
-                            '</div>' +
                         '</div>';
                     $('.student_popup').html(student_record);
-                    $('#student-list').css("filter","blur(20px)");      //blur effect
                     $('.student_popup').css("display","block");
+                    $('#student-list').css("filter","blur(20px)");
                     $(".student_popup").show();
 
                     //$('#container').hide()
