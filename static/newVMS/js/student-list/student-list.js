@@ -35,6 +35,7 @@ $(document).ready(function(){
 
 function closeModal() {
     $('.student_popup').css("display","none");
+    $('#student-list').css("filter","blur(0px)");
 }
 
 
