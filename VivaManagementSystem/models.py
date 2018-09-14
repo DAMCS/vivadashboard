@@ -3,6 +3,7 @@ Contains all the Data models used throughout the system
 Each class is converted to a required table
 """
 from django.db import models
+from PIL import Image
 from util import UserRoles, ReportSubmissionStatus
 
 class VMS_Session(models.Model):
@@ -261,12 +262,12 @@ class Student(models.Model):
         help_text="Project Title"
     )
     join_date = models.DateField(
-        default=date.today,
+        blank=True,
         help_text="Join Date"
     )
     report_submission_status = models.CharField(
         max_length=20,
-        choices=SUBMISSION_STATUS_CHOICES,
+        choices=REPORT_SUBMISSION_STATUS_CHOICES,
         default=REPORT_SUBMISSION_STATUS_CHOICES[0],
         help_text="Report Submission status"
     )
