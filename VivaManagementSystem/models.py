@@ -186,65 +186,89 @@ class Student(models.Model):
     )
     # Others
     semester = models.IntegerField(
-        choices=SEMESTER_CHOICES
+        choices=SEMESTER_CHOICES,
+        help_text="Semester"
     )
     name = models.CharField(
-        max_length=100
+        max_length=100,
+        help_text="Student Name"
     )
     email_id = models.EmailField(
-        default="Invalid"
+        default="invalid@example.com",
+        help_text="Student Email ID"
+    )
+    photo = models.ImageField(
+        blank=True,
+        help_text="Student Photo"
     )
     phone_number = models.CharField(
-        max_length=13
+        max_length=13,
+        help_text="Student Phone Number"
     )
     project_category = models.CharField(
         max_length=20,
         choices=PROJECT_CATEGORY_CHOICES,
-        blank=True
+        blank=True,
+        help_text="Project Category"
     )
     organization_name = models.CharField(
         max_length=200,
-        blank=True
+        blank=True,
+        help_text="Organization"
     )
+    """
+    Change to multiline
+    """
     postal_address = models.CharField(
         max_length=500,
-        blank=True
+        blank=True,
+        help_text="Address"
     )
-    address_short_url = models.CharField(
-        max_length=200,
-        blank=True
+    address_short_url = models.URLField(
+        blank=True,
+        help_text="Organization Location URL"
     )
     address_city = models.CharField(
         max_length=300,
-        blank=True
+        blank=True,
+        help_text="City"
     )
     mentor_name = models.CharField(
         max_length=100,
-        blank=True
+        blank=True,
+        help_text="Mentor"
     )
     mentor_designation = models.CharField(
         max_length=100,
-        blank=True
+        blank=True,
+        default="Mentor",
+        help_text="Mentor's Designation"
     )
     mentor_email_id = models.EmailField(
-        blank=True
+        blank=True,
+        default="invalid@example.com",
+        help_text="Mentor's email ID"
+
     )
     domain_key_word = models.CharField(
         max_length=300,
-        blank=True
+        blank=True,
+        help_text="Student's Domain"
+
     )
     project_title = models.CharField(
-        max_length=500,
-        blank=True
+        max_length=250,
+        help_text="Project Title"
     )
-    join_date = models.CharField(
-        max_length=10,
-        blank=True
+    join_date = models.DateField(
+        default=date.today,
+        help_text="Join Date"
     )
     report_submission_status = models.CharField(
         max_length=20,
-        default='Pending',
-        blank=False
+        choices=SUBMISSION_STATUS_CHOICES,
+        default=REPORT_SUBMISSION_STATUS_CHOICES[0],
+        help_text="Report Submission status"
     )
     class Meta:
         """
@@ -263,27 +287,24 @@ class Batch(models.Model):
     #Foreign Keys
     session = models.ForeignKey(
         VMS_Session,
-        on_delete=models.CASCADE,
-        default=None
+        on_delete=models.CASCADE
     )
     course = models.ForeignKey(
         Course,
-        on_delete=models.CASCADE,
-        null=False
-    )
-
-    year = models.IntegerField(
-        null=True
-    )
-    email_id = models.EmailField(
-        default="Invalid"
-    )
-    strength = models.IntegerField(
-        default=0
+        on_delete=models.CASCADE
     )
     tutor = models.ForeignKey(
         Faculty,
         on_delete=models.CASCADE
+    )
+    year = models.IntegerField(
+        null=True
+    )
+    email_id = models.EmailField(
+        default="invalid@example.com"
+    )
+    strength = models.IntegerField(
+        default=0
     )
     class Meta:
         """
@@ -349,11 +370,13 @@ class User(models.Model):
 
     #Fields
     user_pass = models.CharField(
-        max_length=150
+        max_length=150,
+        help_text="Passcode"
     )
     user_role = models.CharField(
         max_length=50,
-        choices=ALLOWED_USER_ROLES
+        choices=ALLOWED_USER_ROLES,
+        help_text="User role"
     )
     logged_in_time = models.DateTimeField(
         null=True,
