@@ -97,7 +97,8 @@ div.w3-container{
     margin-left:-40px;
 }
 .w3-container h5{
-color:red;
+color:white;
+background-color:red;
 border:2px solid red;
 width:100px;
 text-align:center;
