@@ -9,7 +9,6 @@ function students_search() {
   var input, filter, table, tr, td, i;
   input = document.getElementById("search");
   filter = input.value.toUpperCase();
-  filter1=input.value.toUpperCase();
   student_list = document.getElementById("student-list");
   rows = student_list.getElementsByTagName("header");
   divs = $(document.getElementById("student-list")).children()
@@ -17,7 +16,7 @@ function students_search() {
     data = rows[i].getElementsByTagName("h3")[0];
     data1=rows[i].getElementsByTagName("h5")[0];
     if (data && data1) {
-      if ((data.innerHTML.toUpperCase().indexOf(filter) > -1)|| (data1.innerHTML.toUpperCase().indexOf(filter1)>-1)){
+      if ((data.innerHTML.toUpperCase().indexOf(filter) > -1)|| (data1.innerHTML.toUpperCase().indexOf(filter)>-1)){
         divs[i].style.display = "";
       } else {
         divs[i].style.display = "none";
