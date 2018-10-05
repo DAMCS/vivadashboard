@@ -1,16 +1,16 @@
 "use strict";
 var page = require('webpage').create(),
-    system = require('system');
+	system = require('system');
 
 if (system.args.length < 2) {
-    console.log('ERROR');
-    phantom.exit();
+	console.log('ERROR');
+	phantom.exit();
 }
 
 var address = system.args[1];
 
 page.open(address, function(status) {
-    if (status === 'success') {
+	if (status === 'success') {
 		setTimeout(function(){
 			var pageURL = page.evaluate(function() {
 				return window.location.href;
@@ -18,8 +18,8 @@ page.open(address, function(status) {
 			console.log(pageURL);
 			phantom.exit();
 		}, 3000);
-    } else {
-        console.log('ERROR');
-        phantom.exit();
-    }
+	} else {
+		console.log('ERROR');
+		phantom.exit();
+	}
 });
