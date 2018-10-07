@@ -5,7 +5,7 @@ from enum import Enum
 
 class GoogleSheetConfigKeys(Enum):
 	'''
-	Contains the Keys used with reference to the Google Sheet details
+	Contains the Keys used with reference ot the Google Sheet details
 	'''
 	# This is for Students Form
 	StudentsFormName = 'StudentsForm'

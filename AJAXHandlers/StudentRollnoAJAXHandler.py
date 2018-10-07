@@ -6,9 +6,9 @@ from util import SessionHandler
 
 
 class StudentRollnoAJAXHandler(IAJAXHandler):
-    '''
-    AJAX Handler for getting the Student List from the Server
-    '''
+	'''
+	AJAX Handler for getting the Student List from the Server
+	'''
 
 	def handle_request(self, http_request):
 		# Check the details based on the User Session
