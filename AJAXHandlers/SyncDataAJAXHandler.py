@@ -6,8 +6,8 @@ from util import spreadsheet_module
 
 
 class SyncDataAJAXHandler(IAJAXHandler):
-    def handle_request(self, http_request):
-        if GenericUtil.is_connected():
-            spreadsheet_module.update_database(None)
+	def handle_request(self, http_request):
+		if GenericUtil.is_connected():
+			spreadsheet_module.update_database(None)
 
-        return JsonResponse({'result': 'success'})
+		return JsonResponse({'result': 'success'})
