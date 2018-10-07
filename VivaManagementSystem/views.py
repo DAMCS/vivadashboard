@@ -106,50 +106,50 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def config(request):
-    """
-    Configuration page that is used to set critical settings for the System.
-    Only certain Roles are allowed to acccess this page. They are,
-    1. Administrator
-    2. Viva Coordinator
-    """
-    SessionHandler.set_session_obj(request.session)
-    if not SessionHandler.is_user_logged_in():
-        return redirect('/login/')
-    template = loader.get_template('newVMS/page_config.html')
-    user_id = SessionHandler.get_user_id()
-    user_name = Faculty.objects.get(employee_id=user_id).name
-    user_role = SessionHandler.get_user_role()
-    tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
-    isIDFSent=0
-    isRSDFSent=0
-    if len(tutors) == 0:
-        course_name = "ADMIN VIEW"
-    else:
-        course_name = tutors[0].course.course_name
-        isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-        isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
-    # Set the email to use when setting a new Form Response Sheet
-    SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
-    file_data = json.load(open(SECRETS_FILE))
-    context = {
-        'username': user_name,
-        'userrole' : str(user_role),
-        'pagename': 'VMS-Config',
-        'course_name': course_name,
-        'google_sheets_perm_user_email': file_data['client_email'],
-        'is_idf_sent': isIDFSent,
-        'is_rsdf_sent': isRSDFSent,
-        'js_files': [
-            '/static/newVMS/js/third-party/materialize.min.js',
-            '/static/newVMS/js/config/main.js',
-            "/static/newVMS/js/navbar.js"
-        ],
-        'css_files': [
-            '/static/newVMS/styles/third-party/materialize.min.css',
-            '/static/newVMS/styles/config/main.css'
-        ]
-    }
-    return HttpResponse(template.render(context, request))
+	"""
+	Configuration page that is used to set critical settings for the System.
+	Only certain Roles are allowed to acccess this page. They are,
+	1. Administrator
+	2. Viva Coordinator
+	"""
+	SessionHandler.set_session_obj(request.session)
+	if not SessionHandler.is_user_logged_in():
+		return redirect('/login/')
+	template = loader.get_template('newVMS/page_config.html')
+	user_id = SessionHandler.get_user_id()
+	user_name = Faculty.objects.get(employee_id=user_id).name
+	user_role = SessionHandler.get_user_role()
+	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	isIDFSent=0
+	isRSDFSent=0
+	if len(tutors) == 0:
+		course_name = "ADMIN VIEW"
+	else:
+		course_name = tutors[0].course.course_name
+		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+	# Set the email to use when setting a new Form Response Sheet
+	SECRETS_FILE = 'data/VivaManagementSystem-cee14efa8db4.json'
+	file_data = json.load(open(SECRETS_FILE))
+	context = {
+		'username': user_name,
+		'userrole' : str(user_role),
+		'pagename': 'VMS-Config',
+		'course_name': course_name,
+		'google_sheets_perm_user_email': file_data['client_email'],
+		'is_idf_sent': isIDFSent,
+		'is_rsdf_sent': isRSDFSent,
+		'js_files': [
+			'/static/newVMS/js/third-party/materialize.min.js',
+			'/static/newVMS/js/config/main.js',
+			"/static/newVMS/js/navbar.js"
+		],
+		'css_files': [
+			'/static/newVMS/styles/third-party/materialize.min.css',
+			'/static/newVMS/styles/config/main.css'
+		]
+	}
+	return HttpResponse(template.render(context, request))
 
 def guide_allot(request):
     """
