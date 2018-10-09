@@ -5,19 +5,22 @@
     #content: The Main Content Section
     Just add the page content here for a regular page or use .page DIVs for panel pages.
     Use Bootstrap fluid layout for best effect.
--->
-<div id="container">
+--> <div class="titlepage">
+             <center><p>STUDENT LIST</p></center>
+    </div>
     <div class="box">
         <div class="search-container">
-            <input type="text" id="search" onkeyup="students_search()" placeholder="Search..." />
+            <input type="text" id="search" onkeyup="students_search()" placeholder="Search..."/>
             <!--button-- class="icon"><i class="fa fa-search"></i></button-->
         </div>
+
     </div>
+
     <input type="hidden" id="course-id" value={{ course_id }}>
     <input type="hidden" id="user_role" value={{ userrole }}>
     <div id="student-list">
     </div>
-</div>
+
 <div class="student_popup" id="student_popup">
 
 </div>

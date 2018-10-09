@@ -3,6 +3,7 @@ Contains all the Data models used throughout the system
 Each class is converted to a required table
 """
 from django.db import models
+from PIL import Image
 from util import UserRoles, ReportSubmissionStatus
 import datetime
 

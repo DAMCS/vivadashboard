@@ -129,7 +129,7 @@ def config(request):
 		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
 		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
 	# Set the email to use when setting a new Form Response Sheet
-	SECRETS_FILE = 'data/VivaManagementSystem-f7cde54a5c9e.json'
+	SECRETS_FILE = 'data/VivaManagementSystem-cee14efa8db4.json'
 	file_data = json.load(open(SECRETS_FILE))
 	context = {
 		'username': user_name,

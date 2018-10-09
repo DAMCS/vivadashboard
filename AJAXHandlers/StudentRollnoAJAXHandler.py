@@ -14,7 +14,7 @@ class StudentRollnoAJAXHandler(IAJAXHandler):
 		# Check the details based on the User Session
 		# Check the details based on the User Session
 		roll_no = http_request.GET.get("roll_no")
-		student_list = Student.objects.filter(roll_no=roll_no).values('roll_no', 'semester', 'name', 'course_id',
+		student_list = Student.objects.filter(roll_no=roll_no).values('roll_no', 'semester', 'name', 'photo', 'course_id',
 																	  'email_id', 'project_category', 'postal_address',
 																	  'organization_name', 'domain_key_word',
 																	  'address_short_url',
