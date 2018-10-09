@@ -4,8 +4,82 @@ Each class is converted to a required table
 """
 from django.db import models
 from PIL import Image
-from util import UserRoles, ReportSubmissionStatus
+from util import UserRoles, ReportSubmissionStatus, SemChoices, CourseName, CourseShortName
 import datetime
+
+class Faculty(models.Model):
+	"""
+	Model to represent all the different faculty in the System.
+	Faculty can represent on of the following,
+	1. Tutor
+	2. Course Co ordinator
+	3. Viva Co ordinator
+	4. Guide
+	#
+	The Admin is not considered a Faculty
+	* Admin merely manages the system.
+	"""
+	# The faculty ID which corelates the faculties actual
+	faculty_id = models.CharField(
+		max_length=10,
+		primary_key=True,
+		help_text="Employee ID"
+	)
+	# Profession titles/honorifics such as Mr., Ms., Dr. and so on.
+	title = models.CharField(
+		max_length=4,
+		help_text="Title"
+	)
+	# Faculty's name
+	name = models.CharField(
+		max_length=100,
+		help_text="Faculty name"
+	)
+	# Faculty's Designation inside the department.
+	designation = models.CharField(
+		max_length=50,
+		help_text="Faculty designation"
+	)
+	# Faculty's internal short name.
+	short_name = models.CharField(
+		max_length=10,
+		help_text="Short name"
+	)
+	# Faculty's area of primary study/competency.
+	core_competency = models.CharField(
+		max_length=30,
+		help_text="Core Competency"
+	)
+	# Email ID
+	email_id = models.EmailField(
+		default="Invalid",
+		help_text="Email ID"
+	)
+	# Faculty's area of interest
+	areas_of_interest = models.TextField(
+		help_text="Areas of Interest"
+	)
+	# Phone number
+	phone_number = models.CharField(
+		max_length=13,
+		help_text="Contact"
+	)
+	# Boolean value holds true if faculty is designated as a guide.
+	is_guide = models.BooleanField(
+		default=False,
+		help_text="Guide?"
+	)
+	# Number of llocated students across all sessions.////NEED TO CHECK////
+	allocated_count = models.IntegerField(
+		default=0,
+		help_text="Students Allocated"
+	)
+	class Meta:
+		"""
+		Meta data about the Faculty Table.
+		"""
+		db_table = 'Faculty'
+		ordering = ['faculty_id']
 
 class VMS_Session(models.Model):
 	"""
@@ -15,10 +89,10 @@ class VMS_Session(models.Model):
 	Lot of things have to "belong" to a particular Session.
 	"""
 	SEM_CHOICES = (
-		('odd' , 'odd' ),
-		('even', 'even')
+		('odd'	,SemChoices.odd),
+		('even'	,SemChoices.even)
 	)
-	session_id = models.IntegerField(
+	session_id = models.AutoField(
 		primary_key=True,
 		help_text='Session ID'
 	)
@@ -41,65 +115,57 @@ class VMS_Session(models.Model):
 		"""
 		db_table = 'VMS_Session'
 
-class Faculty(models.Model):
+class User(models.Model):
 	"""
-	Model to represent all the different faculty in the System.
-	Faculty can represent on of the following,
-	1. Tutor
-	2. Course Co ordinator
-	3. Viva Co ordinator
-	4. Guide
+	Model to hold the information of the users eligble to log into the system.
+	Users in the system are given a password to log into the system.
 	"""
-	employee_id = models.CharField(
-		max_length=10,
-		primary_key=True,
-		help_text="Employee ID"
+	USER_ROLES = (
+		('Administrator'	, UserRoles.Admin),
+		('Viva Coordinator'	, UserRoles.VivaCoordinator),
+		('Tutor'			, UserRoles.Tutor),
+		('Guide'			, UserRoles.Guide),
+		('Guest'			, UserRoles.Guest)
 	)
-	title = models.CharField(
-		max_length=4,
-		help_text="Title"
+
+	#Foreign Keys
+	faculty = models.ForeignKey(
+		Faculty,
+		on_delete=models.CASCADE
 	)
-	name = models.CharField(
-		max_length=100,
-		help_text="Faculty name"
+	session = models.ForeignKey(
+		VMS_Session,
+		on_delete=models.CASCADE
 	)
-	designation = models.CharField(
+
+	# Feilds
+	user_pass = models.CharField(
+		max_length=150,
+		help_text="Passcode"
+	)
+	user_role = models.CharField(
 		max_length=50,
-		help_text="Faculty designation"
+		choices=USER_ROLES,
+		help_text="User role"
 	)
-	short_name = models.CharField(
-		max_length=10,
-		help_text="Short name"
+	logged_in_time = models.DateTimeField(
+		null=True,
+		blank=True,
+		default=None
 	)
-	core_competency = models.CharField(
-		max_length=30,
-		help_text="Core Competency"
+	# As seperate schema for tutor has been removed User will carry these fields for now
+	isIDFSent = models.IntegerField(
+		null=True
 	)
-	email_id = models.EmailField(
-		default="Invalid",
-		help_text="Email ID"
-	)
-	areas_of_interest = models.TextField(
-		help_text="Areas of Interest"
-	)
-	phone_number = models.CharField(
-		max_length=13,
-		help_text="Contact"
-	)
-	is_guide = models.BooleanField(
-		default=False,
-		help_text="Guide?"
-	)
-	allocated_count = models.IntegerField(
-		default=0,
-		help_text="Students Allocated"
+	isRSDFSent = models.IntegerField(
+		null=True
 	)
 	class Meta:
 		"""
-		Meta data about the Faculty Table.
+		Class that contains the information about the Table.
 		"""
-		db_table = 'Faculty'
-		ordering = ['employee_id']
+		db_table = 'User'
+		unique_together = ('user', 'user_role')
 
 class Course(models.Model):
 	"""
@@ -110,18 +176,18 @@ class Course(models.Model):
 	3. Each tutor is associated with a particular course.
 	"""
 	COURSE_NAME = (
-		('Applied Mathematics', 'Applied Mathematics'),
-		('Software Systems', 'Software Systems'),
-		('Theoretical Computer Science','Theoretical Computer Science'),
-		('Data Science','Data Science')
+		('Applied Mathematics'			,CourseName.AM),
+		('Software Systems'				,CourseName.SWS),
+		('Theoretical Computer Science'	,CourseName.TCS),
+		('Data Science'					,CourseName.DS)
 	)
 	SHORT_NAME = (
-		('AM', 'AM'),
-		('SWS', 'SWS'),
-		('TCS','TCS'),
-		('DS','DS')
+		('AM'	,CourseShortName.AM),
+		('SWS'	,CourseShortName.SWS),
+		('TCS'	,CourseShortName.TCS),
+		('DS'	,CourseShortName.DS)
 	)
-	course_id = models.AutoField(
+	id = models.AutoField(
 		primary_key=True,
 		help_text="Course ID"
 	)
@@ -147,7 +213,49 @@ class Course(models.Model):
 		Class that contains the information about the Table.
 		"""
 		db_table = 'Course'
-		ordering = ['course_id']
+		ordering = ['id']
+
+class Batch(models.Model):
+	"""
+	Model to denote the details of a particular course in a particular session.
+	Details contained include Group mail, Class strength and the tutor for the course.
+	This is required to allow the course to be provided / cancelled during each Session.
+	"""
+
+	# Foreign Keys
+	# A batch belongs to a particular course
+	course = models.ForeignKey(
+		Course,
+		on_delete=models.CASCADE
+	)
+	# A batch is related to a user who IS a tutor
+	tutor = models.ForeignKey(
+		User,
+		on_delete=models.CASCADE
+	)
+	# Feilds
+	# Year of joining of batch
+	year = models.IntegerField(
+		null=True
+	)
+	# The combined prefix 'year' + 'shortname' of batch
+	batch_id = models.CharField(
+		max_length=10
+	)
+	# Batch email id, usually a google groups mailing list
+	email_id = models.EmailField(
+		default="invalid@example.com"
+	)
+	# Strength of the batch
+	strength = models.IntegerField(
+		default=0
+	)
+	class Meta:
+		"""
+		Class that contains the information about the Table.
+		"""
+		db_table = 'Batch'
+		ordering = ['year']
 
 class Student(models.Model):
 	"""
@@ -157,17 +265,17 @@ class Student(models.Model):
 	Primary key for the Students table is going to be roll_no
 	"""
 	SEMESTER_CHOICES = (
-		(7, '7'),
-		(9, '9'),
-		(4, '4')
+		(7, SemChoices.seven),
+		(9, SemChoices.nine),
+		(4, SemChoices.four)
 	)
 	PROJECT_CATEGORY_CHOICES = (
 		('Industry', 'Industry Project'),
-		('Research', 'Institution/Research Project'),
+		('Research', 'Institution/Research Project')
 	)
 	REPORT_SUBMISSION_STATUS_CHOICES = (
-		('Pending', ReportSubmissionStatus.Pending),
-		('Submitted', ReportSubmissionStatus.Submitted),
+		('Pending'	, ReportSubmissionStatus.Pending),
+		('Submitted', ReportSubmissionStatus.Submitted)
 	)
 	# Primary Key
 	roll_no = models.CharField(
@@ -176,17 +284,15 @@ class Student(models.Model):
 		help_text="Student Roll No."
 	)
 	# Foreign Key
+	batch = models.ForeignKey(
+		Batch,
+		on_delete = models.CASCADE
+	)
 	course = models.ForeignKey(
 		Course,
-		on_delete=models.CASCADE
+		on_delete = models.CASCADE
 	)
-	session = models.ForeignKey(
-		VMS_Session,
-		on_delete=models.CASCADE,
-		default=None,
-		null=True
-	)
-	# Others
+	# Feilds
 	semester = models.IntegerField(
 		choices=SEMESTER_CHOICES,
 		help_text="Semester"
@@ -279,119 +385,6 @@ class Student(models.Model):
 		db_table = 'Student'
 		ordering = ['roll_no']
 
-class Batch(models.Model):
-	"""
-	Model to denote the details of a particular course in a particular session.
-	Details contained include Group mail, Class strength and the tutor for the course.
-	This is required to allow the course to be provided / cancelled during each Session.
-	"""
-
-	#Foreign Keys
-	session = models.ForeignKey(
-		VMS_Session,
-		on_delete=models.CASCADE
-	)
-	course = models.ForeignKey(
-		Course,
-		on_delete=models.CASCADE
-	)
-	tutor = models.ForeignKey(
-		Faculty,
-		on_delete=models.CASCADE
-	)
-	year = models.IntegerField(
-		null=True
-	)
-	email_id = models.EmailField(
-		default="invalid@example.com"
-	)
-	strength = models.IntegerField(
-		default=0
-	)
-	class Meta:
-		"""
-		Class that contains the information about the Table.
-		"""
-		db_table = 'Batch'
-		unique_together = ('session', 'course')
-
-class Tutor(models.Model):
-	"""
-	Model to denote the tutor for each of the course in the given session.
-	This model is not required as the same information is available in the Batch table.
-	TODO Remove this Model. Remove all uses of this table.
-	"""
-
-	#Foreign Keys
-	session = models.ForeignKey(
-		VMS_Session,
-		on_delete=models.CASCADE,
-		default=None
-	)
-	faculty = models.ForeignKey(
-		Faculty,
-		on_delete=models.CASCADE
-	)
-	course = models.ForeignKey(
-		Course,
-		on_delete=models.CASCADE
-	)
-
-	#Fields
-	isIDFSent = models.IntegerField(
-		null=True
-	)
-	isRSDFSent = models.IntegerField(
-		null=True
-	)
-	class Meta:
-		"""
-		Class that contains the information about the Table.
-		"""
-		db_table = 'Tutor'
-		unique_together = ('session', 'faculty', 'course')
-
-class User(models.Model):
-	"""
-	Model to hold the information of the users eligble to log into the system.
-	Users in the system are given a password to log into the system.
-	"""
-	ALLOWED_USER_ROLES = (
-		('Administrator', UserRoles.Admin),
-		('Viva Coordinator', UserRoles.VivaCoordinator),
-		('Tutor', UserRoles.Tutor),
-		('Guide', UserRoles.Guide),
-		('Guest', UserRoles.Guest)
-	)
-
-	#Foreign Keys
-	user = models.ForeignKey(
-		Faculty,
-		on_delete=models.CASCADE
-	)
-
-	#Fields
-	user_pass = models.CharField(
-		max_length=150,
-		help_text="Passcode"
-	)
-	user_role = models.CharField(
-		max_length=50,
-		choices=ALLOWED_USER_ROLES,
-		help_text="User role"
-	)
-	logged_in_time = models.DateTimeField(
-		null=True,
-		blank=True,
-		default=None
-	)
-	class Meta:
-		"""
-		Class that contains the information about the Table.
-		"""
-		db_table = 'User'
-		unique_together = ('user', 'user_role')
-
 class GuideStudentMap(models.Model):
 	"""
 	Model to hold the mapping information between a Student and a Guide.
@@ -401,8 +394,7 @@ class GuideStudentMap(models.Model):
 	#Foreign Keys
 	session = models.ForeignKey(
 		VMS_Session,
-		on_delete=models.CASCADE,
-		default=None
+		on_delete=models.CASCADE
 	)
 	guide = models.ForeignKey(
 		Faculty,
@@ -413,9 +405,9 @@ class GuideStudentMap(models.Model):
 		on_delete=models.CASCADE
 	)
 	# Should only default to null.
-	# Why should this be -1. Defies the concept of ForiengKey.
-	tutor = models.ForeignKey(
-		Tutor,
+	# Why should this be -1. Defies the concept of ForeignKey.
+	user = models.ForeignKey(
+		User,
 		on_delete=models.CASCADE,
 		default="-1"
 		)
