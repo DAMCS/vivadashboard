@@ -4,7 +4,7 @@ Method for handling the AJAX Login requests
 from django.http import JsonResponse
 from django.core.exceptions import MultipleObjectsReturned
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import VMS_Session, Tutor, Batch
+from VivaManagementSystem.models import VMS_Session, User, Batch
 
 class TutorDetailsAJAXHandler(IAJAXHandler):
     '''

@@ -4,7 +4,7 @@ from AJAXHandlers.IAJAXHandler import IAJAXHandler
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from VivaManagementSystem.models import Tutor, Faculty
+from VivaManagementSystem.models import User, Faculty
 from util import SessionHandler
 
 MAIL_CONTENT_FILE_PATH = 'data/mailContent.json'

@@ -165,7 +165,7 @@ class User(models.Model):
 		Class that contains the information about the Table.
 		"""
 		db_table = 'User'
-		unique_together = ('user', 'user_role')
+#		unique_together = ('user', 'user_role')
 
 class Course(models.Model):
 	"""

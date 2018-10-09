@@ -3,7 +3,7 @@ Method for handling the AJAX Login requests
 """
 import json
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import User, Tutor
+from VivaManagementSystem.models import User
 from util.SessionHandler import SessionHandler
 
 class LoginAJAXHandler(IAJAXHandler):
@@ -26,9 +26,9 @@ class LoginAJAXHandler(IAJAXHandler):
 			result['msg'] = 'User already logged in. Logout and try again.'
 			return json.dumps(result)
 		try:
-			# TODO Changing this to case insensitive is causing issues everywhere else. Enfore all caps user names
+			# TODO Changing this to case insensitive is causing issues everywhere else. Enforce all caps user names
 			user_obj = User.objects.get(user=userid, user_pass=password)
-			tutor = Tutor.objects.select_related('faculty').filter(faculty=userid)
+			batch_obj = Batch.objects.select_related('user').filter(faculty=userid)
 			# This is causing a error since the logged in faculty could also be an
 			# Admin who is not a tutor for any course
 			course_id = None

@@ -2,7 +2,7 @@ import json
 
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
 from django.http import JsonResponse
-from VivaManagementSystem.models import Tutor, VMS_Session, Course, Batch, Faculty, User
+from VivaManagementSystem.models import VMS_Session, Course, Batch, Faculty, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.core import serializers

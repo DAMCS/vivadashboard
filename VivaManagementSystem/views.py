@@ -5,7 +5,7 @@ from datetime import datetime
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
-from VivaManagementSystem.models import Tutor, User
+from VivaManagementSystem.models import User
 from VivaManagementSystem.models import Faculty
 from AJAXHandlers import AJAXHandlerFactory
 from util import GenericUtil

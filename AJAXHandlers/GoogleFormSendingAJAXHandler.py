@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
 from AJAXHandlers.SendMailAJAXHandler import sendEmail
-from VivaManagementSystem.models import Batch,Tutor
+from VivaManagementSystem.models import Batch,User
 from util import SessionHandler
 
 __FORM_CONFIG_FILE_PATH = 'data/googleForms.json'

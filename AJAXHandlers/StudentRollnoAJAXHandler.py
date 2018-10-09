@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import Student, Tutor
+from VivaManagementSystem.models import Student, User
 from util import SessionHandler
 
 
