@@ -32,6 +32,34 @@ class UserRoles(Enum):
 				return role
 		return UserRoles.Guest
 
+class SemChoices(Enum):
+	'''
+	Semester Choices as an enumeration
+	'''
+	odd		= 'odd'
+	even	= 'even'
+	seven	= '7'
+	nine	= '9'
+	four	= '4'
+
+class CourseName(Enum):
+	'''
+	Course names
+	'''
+	AM	= 'Applied Mathematics'
+	SWS	= 'Software Systems'
+	TCS	= 'Theoretical Computer Science'
+	DS	= 'Data Science'
+
+class CourseShortName(Enum):
+	'''
+	Short names for
+	'''
+	AM 	= 'AM'
+	SWS = 'PW'
+	TCS = 'PT'
+	DS	= 'PD'
+
 class ReportSubmissionStatus(Enum):
 	'''
 	Various states in the report submission process
