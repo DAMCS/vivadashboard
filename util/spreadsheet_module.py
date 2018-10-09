@@ -26,9 +26,9 @@ def update_faculty_records(last_logged_time):
 		return
 	# Check if we need to update the sheet
 	sheet = workbook.sheet1
-	if not can_update_sheet(sheet, GoogleSheetConfigKeys.FacultyFormName.value):
-		print(GoogleSheetConfigKeys.FacultyFormName.value + ' form is up to date')
-		return
+	#if not can_update_sheet(sheet, GoogleSheetConfigKeys.FacultyFormName.value):
+	#	print(GoogleSheetConfigKeys.FacultyFormName.value + ' form is up to date')
+	#	return
 	print("updating faculty data")
 	# Extract all data into a dataframe
 	faculty_data = pd.DataFrame(sheet.get_all_records())
@@ -62,16 +62,16 @@ def update_student_records(last_logged_time):
 	#students_file_url = 'https://docs.google.com/spreadsheets/d/1iRx9uwfa6CYjVEtOcta4s-4qM8cDwDo8Vre6bQyTwzw/edit#gid=1893222149'
 	config_manager = ConfigurationManager.get_instance()
 	students_file_url = config_manager.get_config('StudentFormURL')
-	workbook = authorize_open_sheet(students_file_url)
+	workbook = authorize_open_sheet("Student's Internship Details (Responses)")
 	if workbook is None:
 		print("Student Sheet cannot be opened. Debug further for more information.")
 		print(students_file_url)
 		return
 	# Get the first sheet
 	sheet = workbook.sheet1
-	if not can_update_sheet(sheet, GoogleSheetConfigKeys.StudentsFormName.value):
-		print(GoogleSheetConfigKeys.StudentsFormName.value + ' form is up to date')
-		return
+	#if not can_update_sheet(sheet, GoogleSheetConfigKeys.StudentsFormName.value):
+	#	print(GoogleSheetConfigKeys.StudentsFormName.value + ' form is up to date')
+	#	return
 
 	print("updating student data")
 	# Extract all data into a dataframe
@@ -80,6 +80,7 @@ def update_student_records(last_logged_time):
 	course_details = list(Course.objects.all().values('course_id', 'course_name'))
 	course_dict = dict(zip([str(x['course_name']) for x in course_details], [int(x['course_id']) for x in course_details]))
 	semester = {'VII' : 7, 'IV' : 4, 'X' : 10}
+	print(student_data)
 	try:
 		# Append rows to the Database
 		for index, row in student_data.loc[num_db_records:].iterrows():
@@ -124,9 +125,9 @@ def update_report_submission_status(last_logged_time):
 		print("Report Submission Sheet cannot be opened. Debug further for more information.")
 		return
 	submission_sheet = workbook.sheet1
-	if not can_update_sheet(submission_sheet, GoogleSheetConfigKeys.ReportSubmissionFormName.value):
-		print(GoogleSheetConfigKeys.ReportSubmissionFormName.value + ' form is up to date')
-		return
+	#if not can_update_sheet(submission_sheet, GoogleSheetConfigKeys.ReportSubmissionFormName.value):
+	#	print(GoogleSheetConfigKeys.ReportSubmissionFormName.value + ' form is up to date')
+	#	return
 	# Proceed with updation.
 	report_data = pd.DataFrame(submission_sheet.get_all_records())
 	try:
@@ -201,7 +202,7 @@ def authorize_open_sheet(sheet_url):
  #											   JSON_KEY['private_key'], SCOPE)
 	# Open up the workbook based on the spreadsheet name
 	gc = gspread.authorize(credentials)
-	workbook = gc.open_by_key(sheet_url)
+	workbook = gc.open("Student's Internship Details (Responses)")
 	return workbook
 
 def update_database(last_logged_time):

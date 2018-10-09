@@ -13,7 +13,7 @@ Including another URLconf
 	1. Import the include() function: from django.conf.urls import url, include
 	2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
@@ -33,3 +33,11 @@ urlpatterns = [
 	url(r'^about', views.about),
 	url(r'^ajax/(?P<ajax_call>[a-zA-Z_]+)/$', views.ajax)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+'''
+if settings.DEBUG:
+   import debug_toolbar
+   urlpatterns += [
+       url(r'^__debug__/', include(debug_toolbar.urls)),
+   ]
+'''
