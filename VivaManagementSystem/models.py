@@ -7,6 +7,40 @@ from PIL import Image
 from util import UserRoles, ReportSubmissionStatus, SemChoices, CourseName, CourseShortName
 import datetime
 
+class VMS_Session(models.Model):
+	"""
+	Model to represent the various Sessions present in the system.
+	A Session denotes a Year and Semester to which all the current data belongs to.
+	Eg: Session of the year 2016 and Semester odd (10th Semester for the 2012 Batch).
+	Lot of things have to "belong" to a particular Session.
+	"""
+	SEM_CHOICES = (
+		('odd'	,SemChoices.odd),
+		('even'	,SemChoices.even)
+	)
+	session_id = models.AutoField(
+		primary_key=True,
+		help_text='Session ID'
+	)
+	session_year = models.IntegerField(
+		default=0,
+		help_text='Session Year'
+	)
+	session_sem = models.CharField(
+		default=SEM_CHOICES[0],
+		max_length=5,
+		choices=SEM_CHOICES,
+		help_text='Semester Choices'
+	)
+	is_current = models.BooleanField(
+		default=False
+	)
+	class Meta:
+		"""
+		Contains meta data for the table.
+		"""
+		db_table = 'VMS_Session'
+
 class Faculty(models.Model):
 	"""
 	Model to represent all the different faculty in the System.
@@ -20,7 +54,7 @@ class Faculty(models.Model):
 	* Admin merely manages the system.
 	"""
 	# The faculty ID which corelates the faculties actual
-	faculty_id = models.CharField(
+	employee_id = models.CharField(
 		max_length=10,
 		primary_key=True,
 		help_text="Employee ID"
@@ -74,46 +108,18 @@ class Faculty(models.Model):
 		default=0,
 		help_text="Students Allocated"
 	)
+
+	def __str__(self):
+		return self.employee_id + ' - ' + self.name
+
 	class Meta:
 		"""
 		Meta data about the Faculty Table.
 		"""
 		db_table = 'Faculty'
-		ordering = ['faculty_id']
+		ordering = ['employee_id']
 
-class VMS_Session(models.Model):
-	"""
-	Model to represent the various Sessions present in the system.
-	A Session denotes a Year and Semester to which all the current data belongs to.
-	Eg: Session of the year 2016 and Semester odd (10th Semester for the 2012 Batch).
-	Lot of things have to "belong" to a particular Session.
-	"""
-	SEM_CHOICES = (
-		('odd'	,SemChoices.odd),
-		('even'	,SemChoices.even)
-	)
-	session_id = models.AutoField(
-		primary_key=True,
-		help_text='Session ID'
-	)
-	session_year = models.IntegerField(
-		default=0,
-		help_text='Session Year'
-	)
-	session_sem = models.CharField(
-		default=SEM_CHOICES[0],
-		max_length=5,
-		choices=SEM_CHOICES,
-		help_text='Semester Choices'
-	)
-	is_current = models.BooleanField(
-		default=False
-	)
-	class Meta:
-		"""
-		Contains meta data for the table.
-		"""
-		db_table = 'VMS_Session'
+
 
 class User(models.Model):
 	"""
@@ -135,7 +141,8 @@ class User(models.Model):
 	)
 	session = models.ForeignKey(
 		VMS_Session,
-		on_delete=models.CASCADE
+		on_delete=models.CASCADE,
+		default= 1
 	)
 
 	# Feilds
@@ -160,6 +167,11 @@ class User(models.Model):
 	isRSDFSent = models.IntegerField(
 		null=True
 	)
+
+	def __str__(self):
+		return self.user_role + ' - ' + self.faculty_id
+
+
 	class Meta:
 		"""
 		Class that contains the information about the Table.
@@ -187,7 +199,7 @@ class Course(models.Model):
 		('TCS'	,CourseShortName.TCS),
 		('DS'	,CourseShortName.DS)
 	)
-	id = models.AutoField(
+	course_id = models.AutoField(
 		primary_key=True,
 		help_text="Course ID"
 	)
@@ -213,7 +225,7 @@ class Course(models.Model):
 		Class that contains the information about the Table.
 		"""
 		db_table = 'Course'
-		ordering = ['id']
+		ordering = ['course_id']
 
 class Batch(models.Model):
 	"""
@@ -240,7 +252,8 @@ class Batch(models.Model):
 	)
 	# The combined prefix 'year' + 'shortname' of batch
 	batch_id = models.CharField(
-		max_length=10
+		max_length=10,
+		default="MSCSE2K12"
 	)
 	# Batch email id, usually a google groups mailing list
 	email_id = models.EmailField(
@@ -250,12 +263,17 @@ class Batch(models.Model):
 	strength = models.IntegerField(
 		default=0
 	)
+
+	def __str__(self):
+		return self.batch_id + ' - ' + str(self.tutor_id)
+
 	class Meta:
 		"""
 		Class that contains the information about the Table.
 		"""
 		db_table = 'Batch'
 		ordering = ['year']
+
 
 class Student(models.Model):
 	"""
@@ -286,7 +304,8 @@ class Student(models.Model):
 	# Foreign Key
 	batch = models.ForeignKey(
 		Batch,
-		on_delete = models.CASCADE
+		on_delete = models.CASCADE,
+		default=21
 	)
 	course = models.ForeignKey(
 		Course,
@@ -385,6 +404,8 @@ class Student(models.Model):
 		db_table = 'Student'
 		ordering = ['roll_no']
 
+
+
 class GuideStudentMap(models.Model):
 	"""
 	Model to hold the mapping information between a Student and a Guide.
@@ -417,3 +438,4 @@ class GuideStudentMap(models.Model):
 		"""
 		db_table = 'GuideStudentMap'
 		unique_together = ('session', 'guide', 'student')
+

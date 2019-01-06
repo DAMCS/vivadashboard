@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
 from VivaManagementSystem.models import User
-from VivaManagementSystem.models import Faculty
+from VivaManagementSystem.models import Faculty, Batch
 from AJAXHandlers import AJAXHandlerFactory
 from util import GenericUtil
 from util import SessionHandler
@@ -49,7 +49,7 @@ def index(request):
 	current_user_id = SessionHandler.get_user_id()
 	isIDFSent = 0
 	isRSDFSent = 0
-	current_user = User.objects.get(user_id=current_user_id) # For user_role.
+	current_user = User.objects.get(faculty_id=current_user_id) # For user_role.
 	last_logged_in = current_user.logged_in_time
 	if GenericUtil.is_connected(): # TODO FIXME Move this to a AJAX Request. This severly hogs up data.
 		spreadsheet_module.update_database(last_logged_in)
@@ -57,11 +57,17 @@ def index(request):
 		current_user.save()
 	user_name = Faculty.objects.get(employee_id=current_user_id).name # For the name
 	# Check if the Faculty is a Tutor for anything
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=current_user_id)
+	#User_id=User.objects.select_related('faculty').get(faculty_id=current_user_id).id
+	#user_id=User.objects.select_related('faculty').filter((Q(faculty_id='C1355') & Q(user_role='Tutor')).first().id
+	tutors= Batch.objects.select_related('tutor').filter(tutor=current_user.id)
+	#query="select Batch.id from Batch where Batch.tutor_id=(select id from User where User.faculty_id='C1355')"
+	#p=Batch.objects.raw(query)
+	#print(p)
+	#tutors=p.id
 	if len(tutors) > 0:
 		course_name = tutors[0].course.course_name
-		isIDFSent=Tutor.objects.get(faculty_id=current_user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=current_user_id).isRSDFSent
+		isIDFSent=User.objects.get(faculty_id=current_user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=current_user_id).isRSDFSent
 	else: # Could be an admin or just a Guide
 		if current_user.user_role == UserRoles.Admin.value:
 			course_name = 'Admin View'
@@ -119,15 +125,17 @@ def config(request):
 	user_id = SessionHandler.get_user_id()
 	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
+	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
+	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
 	isIDFSent=0
 	isRSDFSent=0
 	if len(tutors) == 0:
 		course_name = "ADMIN VIEW"
 	else:
 		course_name = tutors[0].course.course_name
-		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
 	# Set the email to use when setting a new Form Response Sheet
 	SECRETS_FILE = 'data/VivaManagementSystem-cee14efa8db4.json'
 	file_data = json.load(open(SECRETS_FILE))
@@ -162,7 +170,11 @@ def guide_allot(request):
 	user_id = SessionHandler.get_user_id()
 	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
+	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
+
+	#tutors = Batch.objects.select_related('tutor').filter(tutor=user_id)
+	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
 	isIDFSent = 0
 	isRSDFSent = 0
 	if len(tutors) == 0:
@@ -170,8 +182,8 @@ def guide_allot(request):
 		course_id = "-1"
 	else:
 		course_name = tutors[0].course.course_name
-		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
 		course_id = SessionHandler.get_user_course_id()
 	context = {
 		'userid'  :user_id,
@@ -202,15 +214,18 @@ def guide_select(request):
 	user_id = SessionHandler.get_user_id()
 	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
+	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
+	#tutors = Batch.objects.select_related('tutor').filter(tutor=user_id)
+	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
 	isIDFSent = 0
 	isRSDFSent = 0
 	if len(tutors) == 0:
 		course_name = "ADMIN VIEW"
 	else:
 		course_name = tutors[0].course.course_name
-		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
 	query_results = Faculty.objects.all()
 	template = loader.get_template('newVMS/page_guide_select.html')
 	context = {
@@ -251,7 +266,8 @@ def student_list(request):
 	user_id = SessionHandler.get_user_id()
 	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
+	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
 	isIDFSent = 0
 	isRSDFSent = 0
 	if len(tutors) == 0:
@@ -260,8 +276,8 @@ def student_list(request):
 	else:
 		course_name = tutors[0].course.course_name
 		course_id = SessionHandler.get_user_course_id()
-		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
 	context = {
 		'username': user_name,
 		'userrole': str(user_role),
@@ -291,15 +307,18 @@ def about(request):
 	user_id = SessionHandler.get_user_id()
 	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
+	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
+	#tutors = Batch.objects.select_related('tutor').filter(tutor='C1355')
+	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
 	isIDFSent = 0
 	isRSDFSent = 0
 	if len(tutors) == 0:
 		course_name = "ADMIN VIEW"
 	else:
 		course_name = tutors[0].course.course_name
-		isIDFSent = Tutor.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = Tutor.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
+		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
 	context = {
 		'username': user_name,
 		'userrole': str(user_role),

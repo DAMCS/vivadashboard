@@ -47,7 +47,7 @@ class SessionHandler:
 		"""
 		SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, True)
 		SessionHandler.__set_session_var(SessionVariableKeys.LAST_ACTIVE, datetime.now())
-		SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, user_obj.user_id)
+		SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, user_obj.faculty_id)
 		SessionHandler.__set_session_var(SessionVariableKeys.USER_ROLE, user_obj.user_role)
 		SessionHandler.__set_session_var(SessionVariableKeys.USER_COURSE_ID, user_obj.course_id)
 

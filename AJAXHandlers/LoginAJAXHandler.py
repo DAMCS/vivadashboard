@@ -3,7 +3,7 @@ Method for handling the AJAX Login requests
 """
 import json
 from AJAXHandlers.IAJAXHandler import IAJAXHandler
-from VivaManagementSystem.models import User
+from VivaManagementSystem.models import User, Batch
 from util.SessionHandler import SessionHandler
 
 class LoginAJAXHandler(IAJAXHandler):
@@ -27,8 +27,8 @@ class LoginAJAXHandler(IAJAXHandler):
 			return json.dumps(result)
 		try:
 			# TODO Changing this to case insensitive is causing issues everywhere else. Enforce all caps user names
-			user_obj = User.objects.get(user=userid, user_pass=password)
-			batch_obj = Batch.objects.select_related('user').filter(faculty=userid)
+			user_obj = User.objects.get(faculty_id=userid, user_pass=password)
+			tutor = Batch.objects.select_related('tutor').filter(tutor=user_obj.id)
 			# This is causing a error since the logged in faculty could also be an
 			# Admin who is not a tutor for any course
 			course_id = None
