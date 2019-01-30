@@ -5,14 +5,14 @@ from enum import Enum
 
 class GoogleSheetConfigKeys(Enum):
 	'''
-	Contains the Keys used with reference ot the Google Sheet details
+	Contains the Keys used with reference at the Google Sheet details
 	'''
 	# This is for Students Form
-	StudentsFormName = 'StudentsForm'
+	StudentsFormName = 'StudentInternshipDetails'
 	StudentsFormURL = 'StudentsFormURL'
 	# This is for Faculty Form
-	FacultyFormName = 'FacultyForm'
+	FacultyFormName = 'FacultyInformation'
 	FacultyFormURL = 'FacultyFormURL'
 	# This is for Report Submission Status
-	ReportSubmissionFormName = 'ReportSubmissionForm'
+	ReportSubmissionFormName = 'ProjectReportDetails'
 	ReportSubmissionFormURL = 'ReportSubmissionFormURL'
