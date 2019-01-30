@@ -54,7 +54,7 @@ $ python manage.py runserver
 
 [Django]: <https://github.com/django/django>
 [jQuery]: <https://jquery.com/>
-[Bootstrap]: <>
+[Bootstrap]: <https://github.com/twbs/bootstrap>
 [AJAX]: <https://code.djangoproject.com/wiki/AJAX>
 [gspread]: <https://github.com/burnash/gspread>
 [google forms]: <https://www.google.com/forms/about/>

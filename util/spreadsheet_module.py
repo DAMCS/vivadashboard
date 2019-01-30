@@ -18,7 +18,7 @@ def update_faculty_records(last_logged_time):
 	'''
 	# faculty_records_file = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
 	config_manager = ConfigurationManager.get_instance()
-	faculty_records_file = config_manager.get_config('FacultyFormURL')
+	faculty_records_file = config_manager.get_config('FacultyFormName')
 	workbook = authorize_open_sheet(faculty_records_file)
 	if workbook is None:
 		print("Faculty Sheet cannot be opened. Debug further for more information.")
@@ -61,11 +61,11 @@ def update_student_records(last_logged_time):
 	'''
 	#students_file_url = 'https://docs.google.com/spreadsheets/d/1iRx9uwfa6CYjVEtOcta4s-4qM8cDwDo8Vre6bQyTwzw/edit#gid=1893222149'
 	config_manager = ConfigurationManager.get_instance()
-	students_file_url = config_manager.get_config('StudentFormURL')
-	workbook = authorize_open_sheet("Student's Internship Details (Responses)")
+	students_file_name = config_manager.get_config('StudentFormName')
+	workbook = authorize_open_sheet(students_file_name)
 	if workbook is None:
 		print("Student Sheet cannot be opened. Debug further for more information.")
-		print(students_file_url)
+		print(students_file_name)
 		return
 	# Get the first sheet
 	sheet = workbook.sheet1
@@ -119,7 +119,7 @@ def update_report_submission_status(last_logged_time):
 	'''
 	# report_submission_sheet = 'https://docs.google.com/spreadsheets/d/1sZGYNcdb0SFAI3LY1hBlnC9YjUNytcmh-ng_pO_-jwA/edit#gid=459423118'
 	config_manager = ConfigurationManager.get_instance()
-	report_submission_sheet = config_manager.get_config('ReportFormURL')
+	report_submission_sheet = config_manager.get_config('ReportFormName')
 	workbook = authorize_open_sheet(report_submission_sheet)
 	if workbook is None:
 		print("Report Submission Sheet cannot be opened. Debug further for more information.")
@@ -187,22 +187,17 @@ def can_update_sheet(sheet, sheet_name):
 	return False
 
 
-def authorize_open_sheet(sheet_url):
+def authorize_open_sheet(sheet_name):
 	"""Authorizes the user and returns an instance of the worksheet specified by the sheet_url.
 
 	:param sheet_url: URL pointing to the sheet in drive.
 
 	:return: Result of open_by_url, None if the spread sheet does not exist.
 	"""
-	SECRETS_FILE = 'data/VivaManagementSystem-cee14efa8db4.json'
 	SCOPE = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets']
-	# JSON_KEY = json.load(open(SECRETS_FILE))
-	credentials = ServiceAccountCredentials.from_json_keyfile_name('data/VivaManagementSystem-cee14efa8db4.json', SCOPE)
-#	credentials = SignedJwtAssertionCredentials(JSON_KEY['client_email'], \
- #											   JSON_KEY['private_key'], SCOPE)
-	# Open up the workbook based on the spreadsheet name
+	credentials = ServiceAccountCredentials.from_json_keyfile_name('data/VMSServiceAccountCredentials.json', SCOPE)
 	gc = gspread.authorize(credentials)
-	workbook = gc.open("Student's Internship Details (Responses)")
+	workbook = gc.open(sheet_name)
 	return workbook
 
 def update_database(last_logged_time):
