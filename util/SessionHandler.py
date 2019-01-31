@@ -8,12 +8,12 @@ from util.types import UserRoles
 
 
 class SessionVariableKeys(Enum):
-	"""
-	Stores the keys used in the session storage
+	"""Stores the keys used in the session storage
+
 	"""
 	USER_ID 		= 'user_id',
 	USER_ROLE 		= 'user_role',
-	USER_COURSE_ID 	= 'course_id'
+	USER_NAME  		= 'user_name',
 	IS_LOGGED_IN 	= 'is_logged_in',
 	LAST_ACTIVE 	= 'last_active'
 
@@ -29,8 +29,8 @@ class SessionHandler:
 
 	@staticmethod
 	def set_session_obj(session_obj):
-		"""
-		Method for setting the session object which is getting attached to the request.
+		"""Method for setting the session object which is getting attached to the request.
+
 		:param session_obj: Request's session obj
 		:return: None
 		"""
@@ -47,9 +47,9 @@ class SessionHandler:
 		"""
 		SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, True)
 		SessionHandler.__set_session_var(SessionVariableKeys.LAST_ACTIVE, datetime.now())
-		SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, user_obj.faculty_id)
+		SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, user_obj.user_id)
 		SessionHandler.__set_session_var(SessionVariableKeys.USER_ROLE, user_obj.user_role)
-		SessionHandler.__set_session_var(SessionVariableKeys.USER_COURSE_ID, user_obj.course_id)
+		SessionHandler.__set_session_var(SessionVariableKeys.USER_NAME, user_obj.user_id)
 
 	@staticmethod
 	def is_user_logged_in():
@@ -74,6 +74,7 @@ class SessionHandler:
 			SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, False)
 			SessionHandler.__set_session_var(SessionVariableKeys.LAST_ACTIVE, datetime.now())
 			SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, None)
+			SessionHandler.__set_session_var(SessionVariableKeys.USER_NAME, None)
 			return
 		if SessionHandler.__get_session_var(SessionVariableKeys.IS_LOGGED_IN):
 			now_time = datetime.now()
@@ -104,12 +105,12 @@ class SessionHandler:
 		return SessionHandler.__get_session_var(SessionVariableKeys.USER_ID)
 
 	@staticmethod
-	def get_user_course_id():
+	def get_user_name():
 		"""
 		Returns the user_id from the stored session.
 		:return: ID of the logged in user
 		"""
-		return SessionHandler.__get_session_var(SessionVariableKeys.USER_COURSE_ID)
+		return SessionHandler.__get_session_var(SessionVariableKeys.USER_NAME)
 
 
 	@staticmethod
@@ -120,6 +121,7 @@ class SessionHandler:
 		"""
 		SessionHandler.__set_session_var(SessionVariableKeys.IS_LOGGED_IN, False)
 		SessionHandler.__set_session_var(SessionVariableKeys.USER_ID, None)
+		SessionHandler.__set_session_var(SessionVariableKeys.USER_NAME, None)
 
 	@staticmethod
 	def __get_session_var(var_key):

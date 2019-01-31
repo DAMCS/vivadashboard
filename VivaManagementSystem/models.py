@@ -135,17 +135,16 @@ class User(models.Model):
 	)
 
 	#Foreign Keys
-	faculty = models.ForeignKey(
+	user = models.ForeignKey(
 		Faculty,
 		on_delete=models.CASCADE
 	)
 	session = models.ForeignKey(
 		VMS_Session,
 		on_delete=models.CASCADE,
-		default= 1
+		default=1
 	)
 
-	# Feilds
 	user_pass = models.CharField(
 		max_length=150,
 		help_text="Passcode"
@@ -156,20 +155,20 @@ class User(models.Model):
 		help_text="User role"
 	)
 	logged_in_time = models.DateTimeField(
-		null=True,
-		blank=True,
-		default=None
+		null=True
 	)
 	# As seperate schema for tutor has been removed User will carry these fields for now
 	isIDFSent = models.IntegerField(
-		null=True
+		null=True,
+		default=0
 	)
 	isRSDFSent = models.IntegerField(
-		null=True
+		null=True,
+		default=0
 	)
 
-	def __str__(self):
-		return self.user_role + ' - ' + self.faculty_id
+	#def __str__(self):
+	#	return self.user_role + ' - ' + self.user_id
 
 
 	class Meta:
@@ -250,11 +249,11 @@ class Batch(models.Model):
 	year = models.IntegerField(
 		null=True
 	)
-	# The combined prefix 'year' + 'shortname' of batch
+	"""# The combined prefix 'year' + 'shortname' of batch
 	batch_id = models.CharField(
 		max_length=10,
 		default="MSCSE2K12"
-	)
+	)"""
 	# Batch email id, usually a google groups mailing list
 	email_id = models.EmailField(
 		default="invalid@example.com"
@@ -306,10 +305,6 @@ class Student(models.Model):
 		Batch,
 		on_delete = models.CASCADE,
 		default=21
-	)
-	course = models.ForeignKey(
-		Course,
-		on_delete = models.CASCADE
 	)
 	# Feilds
 	semester = models.IntegerField(
@@ -388,7 +383,6 @@ class Student(models.Model):
 		help_text="Project Title"
 	)
 	join_date = models.DateField(
-		default=datetime.date.today,
 		help_text="Join Date"
 	)
 	report_submission_status = models.CharField(
@@ -439,3 +433,4 @@ class GuideStudentMap(models.Model):
 		db_table = 'GuideStudentMap'
 		unique_together = ('session', 'guide', 'student')
 
+ 

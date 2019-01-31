@@ -46,45 +46,43 @@ def index(request):
 	SessionHandler.set_session_obj(request.session)
 	if not SessionHandler.is_user_logged_in(): # Check login status
 		return redirect('/login/')
-	current_user_id = SessionHandler.get_user_id()
+	user_id = SessionHandler.get_user_id()
+	user_name = SessionHandler.get_user_name()
 	isIDFSent = 0
 	isRSDFSent = 0
-	current_user = User.objects.get(faculty_id=current_user_id) # For user_role.
-	last_logged_in = current_user.logged_in_time
+	faculty_object = Faculty.objects.get(employee_id=user_id)
+	user_object = User.objects.get(user_id=user_id) # For user_role.
+	last_logged_in = user_object.logged_in_time
+	print(user_object.user_id)
+	user_name = faculty_object.name # For the name
+
 	if GenericUtil.is_connected(): # TODO FIXME Move this to a AJAX Request. This severly hogs up data.
 		spreadsheet_module.update_database(last_logged_in)
-		current_user.logged_in_time = datetime.now()
-		current_user.save()
-	user_name = Faculty.objects.get(employee_id=current_user_id).name # For the name
-	# Check if the Faculty is a Tutor for anything
-	#User_id=User.objects.select_related('faculty').get(faculty_id=current_user_id).id
-	#user_id=User.objects.select_related('faculty').filter((Q(faculty_id='C1355') & Q(user_role='Tutor')).first().id
-	tutors= Batch.objects.select_related('tutor').filter(tutor=current_user.id)
-	#query="select Batch.id from Batch where Batch.tutor_id=(select id from User where User.faculty_id='C1355')"
-	#p=Batch.objects.raw(query)
-	#print(p)
-	#tutors=p.id
-	if len(tutors) > 0:
-		course_name = tutors[0].course.course_name
-		isIDFSent=User.objects.get(faculty_id=current_user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=current_user_id).isRSDFSent
+		user_object.logged_in_time = datetime.now()
+		user_object.save()
+	
+	if user_object.user_role == UserRoles.Tutor.value:
+		course_object = Batch.object.select_related('course').get(user_id=user_id)
+		course_name = course_object.course_name
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
 	else: # Could be an admin or just a Guide
-		if current_user.user_role == UserRoles.Admin.value:
+		if user_object.user_role == UserRoles.Admin.value:
 			course_name = 'Admin View'
-		elif current_user.user_role == UserRoles.Guide.value:
+		elif user_object.user_role == UserRoles.Guide.value:
 			course_name = 'Guide View'
 		else:
 			course_name = 'Guest View'
 	# Change the view according to the logged in user type
 	context = {
 		'username': user_name,
-		'userrole' : str(current_user.user_role),
+		'userrole' : str(user_object.user_role),
 		'pagename': 'VMS-Index',
 		'course_name': course_name,
 		'is_idf_sent':isIDFSent,
 		'is_rsdf_sent':isRSDFSent
 	}
-	if current_user.user_role != 'Guide':
+	if user_object.user_role != UserRoles.Guide.value:
 		template = loader.get_template('newVMS/page_index.html')
 		context['js_files'] = [
 			'/static/newVMS/js/third-party/charts/raphaeljs.min.js',
@@ -122,22 +120,27 @@ def config(request):
 	if not SessionHandler.is_user_logged_in():
 		return redirect('/login/')
 	template = loader.get_template('newVMS/page_config.html')
+
 	user_id = SessionHandler.get_user_id()
-	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
-	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
-	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+
+	faculty_object = Faculty.objects.get(employee_id=user_id)
+	user_object = User.objects.select_related('user').get(user_id=user_id)
+	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	user_name = faculty_object.name
 	isIDFSent=0
 	isRSDFSent=0
-	if len(tutors) == 0:
-		course_name = "ADMIN VIEW"
+
+	if user_role == UserRoles.Admin.value:
+		course_name = "Admin View"
+	elif user_role == UserRoles.Guest.value:
+		course_name = "Guest View"
 	else:
-		course_name = tutors[0].course.course_name
-		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
+		course_name = course_object.course_name
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
 	# Set the email to use when setting a new Form Response Sheet
-	SECRETS_FILE = 'data/VivaManagementSystem-cee14efa8db4.json'
+	SECRETS_FILE = 'data/VMSServiceAccountCredentials.json'
 	file_data = json.load(open(SECRETS_FILE))
 	context = {
 		'username': user_name,
@@ -168,23 +171,27 @@ def guide_allot(request):
 		return redirect('/login/')
 	template = loader.get_template('newVMS/page_guide_allot.html')
 	user_id = SessionHandler.get_user_id()
-	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
-	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
-
-	#tutors = Batch.objects.select_related('tutor').filter(tutor=user_id)
-	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	
+	faculty_object = Faculty.objects.get(employee_id=user_id)
+	user_object = User.objects.select_related('user').get(user_id=user_id)
+	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	user_name = faculty_object.name
+	
 	isIDFSent = 0
 	isRSDFSent = 0
-	if len(tutors) == 0:
-		course_name = "ADMIN VIEW"
+
+	if user_role == UserRoles.Admin.value:
+		course_name = "Admin View"
+		course_id = "-1"
+	elif user_role == UserRoles.Guest.value:
+		course_name = "Guest View"
 		course_id = "-1"
 	else:
-		course_name = tutors[0].course.course_name
-		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
-		course_id = SessionHandler.get_user_course_id()
+		course_name = course_object.course_name
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
+		course_id = course_object.course_id
 	context = {
 		'userid'  :user_id,
 		'username': user_name,
@@ -211,22 +218,26 @@ def guide_select(request):
 	SessionHandler.set_session_obj(request.session)
 	if not SessionHandler.is_user_logged_in():
 		return redirect('/login/')
-	user_id = SessionHandler.get_user_id()
-	user_name = Faculty.objects.get(employee_id=user_id).name
+	query_results = Faculty.objects.all()
+	faculty_object = query_results.get(employee_id=user_id)
+	user_object = User.objects.select_related('user').get(user_id=user_id)
+
+	user_name = faculty_object.name
 	user_role = SessionHandler.get_user_role()
-	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
-	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
-	#tutors = Batch.objects.select_related('tutor').filter(tutor=user_id)
-	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+	user_id = SessionHandler.get_user_id()
+
 	isIDFSent = 0
 	isRSDFSent = 0
-	if len(tutors) == 0:
-		course_name = "ADMIN VIEW"
+
+	if user_role == UserRoles.Admin.value:
+		course_name = "Admin View"
+	elif user_role == UserRoles.Guest.value:
+		course_name = "Guest View"
 	else:
 		course_name = tutors[0].course.course_name
-		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
-	query_results = Faculty.objects.all()
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
+
 	template = loader.get_template('newVMS/page_guide_select.html')
 	context = {
 		'query_results': query_results,
@@ -264,20 +275,24 @@ def student_list(request):
 		return redirect('/login/')
 	template = loader.get_template('newVMS/page_student_list.html')
 	user_id = SessionHandler.get_user_id()
-	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
-	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
+
+	user_object = User.objects.select_related('faculty').get(user_id=user_id)
+	faculty_object = Faculty.objects.get(employee_id=user_id)
+	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	user_name = faculty_object.name
+
 	isIDFSent = 0
 	isRSDFSent = 0
-	if len(tutors) == 0:
-		course_name = "ADMIN VIEW"
-		course_id = "-1"
+
+	if user_role == UserRoles.Admin.value:
+		course_name = "Admin View"
+	elif user_role == UserRoles.Guest.value:
+		course_name = "Guest View"
 	else:
-		course_name = tutors[0].course.course_name
-		course_id = SessionHandler.get_user_course_id()
-		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
+		course_id = course_object.course_id
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
 	context = {
 		'username': user_name,
 		'userrole': str(user_role),
@@ -305,20 +320,22 @@ def about(request):
 		return redirect('/login/')
 	template = loader.get_template('newVMS/page_about.html')
 	user_id = SessionHandler.get_user_id()
-	user_name = Faculty.objects.get(employee_id=user_id).name
 	user_role = SessionHandler.get_user_role()
-	user = User.objects.select_related('faculty').get(faculty_id=user_id).id
-	tutors = Batch.objects.select_related('tutor').filter(tutor=user)
-	#tutors = Batch.objects.select_related('tutor').filter(tutor='C1355')
-	#tutors = Tutor.objects.select_related('faculty').filter(faculty=user_id)
+
+	user_object = User.objects.select_related('faculty').get(user_id=user_id)
+	faculty_object = Faculty.objects.get(employee_id=user_id)
+	user_name = faculty_object.name
+	
 	isIDFSent = 0
 	isRSDFSent = 0
-	if len(tutors) == 0:
-		course_name = "ADMIN VIEW"
+
+	if user_role == UserRoles.Admin.value:
+		course_name = "Admin View"
+	elif user_role == UserRoles.Guest.value:
+		course_name = "Guest View"
 	else:
-		course_name = tutors[0].course.course_name
-		isIDFSent = User.objects.get(faculty_id=user_id).isIDFSent
-		isRSDFSent = User.objects.get(faculty_id=user_id).isRSDFSent
+		isIDFSent = user_object.isIDFSent
+		isRSDFSent = user_object.isRSDFSent
 	context = {
 		'username': user_name,
 		'userrole': str(user_role),

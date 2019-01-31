@@ -1,20 +1,20 @@
-"""
-File that contains all the different Types used in the System
+"""File that contains all the different Types used in the System
+
 """
 from enum import Enum
 import json
 
 def for_django(cls):
-	"""
-	Decorator that is to be used with Enums to give it access in templates
+	"""Decorator that is to be used with Enums to give it access in templates
+
 	"""
 	cls.do_not_call_in_templates = True
 	return cls
 
 @for_django
 class UserRoles(Enum):
-	"""
-	Various Roles played by the Faculty in the system
+	"""Various Roles played by the Faculty in the system
+
 	"""
 	Admin 			= 'Administrator'
 	VivaCoordinator = 'Viva Coordinator'
@@ -24,8 +24,8 @@ class UserRoles(Enum):
 
 	@staticmethod
 	def get_type_from_str(str_value):
-		'''
-		Returns the UserRole based on the string value.
+		'''Returns the UserRole based on the string value.
+
 		'''
 		for role in UserRoles:
 			if role.value == str_value:
@@ -33,8 +33,8 @@ class UserRoles(Enum):
 		return UserRoles.Guest
 
 class SemChoices(Enum):
-	'''
-	Semester Choices as an enumeration
+	'''Semester Choices as an enumeration
+
 	'''
 	odd		= 'odd'
 	even	= 'even'
@@ -43,8 +43,8 @@ class SemChoices(Enum):
 	four	= '4'
 
 class CourseName(Enum):
-	'''
-	Course names
+	'''Course names
+
 	'''
 	AM	= 'Applied Mathematics'
 	SWS	= 'Software Systems'
@@ -52,8 +52,8 @@ class CourseName(Enum):
 	DS	= 'Data Science'
 
 class CourseShortName(Enum):
-	'''
-	Short names for
+	'''Short names for
+
 	'''
 	AM 	= 'AM'
 	SWS = 'PW'
@@ -61,17 +61,19 @@ class CourseShortName(Enum):
 	DS	= 'PD'
 
 class ReportSubmissionStatus(Enum):
-	'''
-	Various states in the report submission process
+	'''Various states in the report submission process
+
 	'''
 	Submitted = 'Submitted'
 	Pending = 'Pending'
 
 class OperationStatus():
 	"""Class that holds the result of the operation along with the data payload
+
 	"""
 	def __init__(self):
 		"""Constructor that sets the data initially
+
 		"""
 		self.status = False
 		self.message = ''
@@ -81,9 +83,7 @@ class OperationStatus():
 		"""Method that sets the parameters
 
 		:param status: a :Boolean: denoting the status of the operation.
-
 		:param message: a :String: denoting the message based on the status
-
 		:param payload: a :Object: of any JSON serializable class
 		"""
 		self.status = status

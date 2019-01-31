@@ -5,31 +5,31 @@ from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from VivaManagementSystem.models import Faculty, VMS_Session
-from VivaManagementSystem.models import Student
-from VivaManagementSystem.models import Course
+from VivaManagementSystem.models import Faculty, VMS_Session, Student, Course, Batch
 from util.configuration import ConfigurationManager, GoogleSheetConfigKeys
 from util import ReportSubmissionStatus
 #-------------------Donot change the code above this line---------------------------------
 
 def update_faculty_records(last_logged_time):
-	'''
+	'''Faculty Table Updation
+
 	Updates the Faculty records from the Sheet
+	:param last_logged_time:
+	:return None:
 	'''
-	# faculty_records_file = 'https://docs.google.com/spreadsheets/d/1FG3kkhmmZDooNyqCbNyRFHeTP0xYD1RqUssXFN_u9NU/edit#gid=1592165263'
 	config_manager = ConfigurationManager.get_instance()
-	faculty_records_file = config_manager.get_config('FacultyFormName')
-	workbook = authorize_open_sheet(faculty_records_file)
+	faculty_records_url = config_manager.get_config('FacultySheetURL')
+	workbook = authorize_open_sheet(faculty_records_url)
 	if workbook is None:
 		print("Faculty Sheet cannot be opened. Debug further for more information.")
-		print(faculty_records_file)
+		print(faculty_records_url)
 		return
 	# Check if we need to update the sheet
 	sheet = workbook.sheet1
 	#if not can_update_sheet(sheet, GoogleSheetConfigKeys.FacultyFormName.value):
 	#	print(GoogleSheetConfigKeys.FacultyFormName.value + ' form is up to date')
 	#	return
-	print("updating faculty data")
+	print("-- Updating faculty data!")
 	# Extract all data into a dataframe
 	faculty_data = pd.DataFrame(sheet.get_all_records())
 	num_db_records = len(Faculty.objects.all())
@@ -37,35 +37,36 @@ def update_faculty_records(last_logged_time):
 		# Append rows to the Database
 		for index, row in faculty_data.loc[num_db_records:].iterrows():
 			model = Faculty()
+
+			model.employee_id = row['Employee ID'].upper()
 			model.title = row['Title']
 			model.name = row['Full Name'].upper()
 			model.designation = row['Designation']
 			model.short_name = row['Short Name used in Department'].upper()
-			model.employee_id = row['Employee ID'].upper()
-			model.core_competency = row['Core Competency']
-			model.is_guide = 0
-			model.students_allocated = 0
 			model.email_id = row['E-mail ID']
 			model.areas_of_interest = row['Area of Interest for project guidance']
+			model.core_competency = row['Core Competency']
 			model.phone_number = row['Phone number']
+			model.is_guide = False
+			model.students_allocated = 0
 			model.save()
 	except:
 		pass
 	# Update the last checked time
-	update_last_check_time(GoogleSheetConfigKeys.FacultyFormName.value)
+	update_last_check_time(GoogleSheetConfigKeys.FacultySheetName.value)
+	return
 
 
 def update_student_records(last_logged_time):
 	'''
 	Updates the students data from sheet
 	'''
-	#students_file_url = 'https://docs.google.com/spreadsheets/d/1iRx9uwfa6CYjVEtOcta4s-4qM8cDwDo8Vre6bQyTwzw/edit#gid=1893222149'
 	config_manager = ConfigurationManager.get_instance()
-	students_file_name = config_manager.get_config('StudentFormName')
-	workbook = authorize_open_sheet(students_file_name)
+	students_file_url = config_manager.get_config('StudentSheetURL')
+	workbook = authorize_open_sheet(students_file_url)
 	if workbook is None:
 		print("Student Sheet cannot be opened. Debug further for more information.")
-		print(students_file_name)
+		print(students_file_url)
 		return
 	# Get the first sheet
 	sheet = workbook.sheet1
@@ -73,20 +74,20 @@ def update_student_records(last_logged_time):
 	#	print(GoogleSheetConfigKeys.StudentsFormName.value + ' form is up to date')
 	#	return
 
-	print("updating student data")
+	print("-- Updating student data!")
 	# Extract all data into a dataframe
 	student_data = pd.DataFrame(sheet.get_all_records())
 	num_db_records = Student.objects.all().count()
 	course_details = list(Course.objects.all().values('course_id', 'course_name'))
 	course_dict = dict(zip([str(x['course_name']) for x in course_details], [int(x['course_id']) for x in course_details]))
 	semester = {'VII' : 7, 'IV' : 4, 'X' : 10}
-	print(student_data)
 	try:
 		# Append rows to the Database
 		for index, row in student_data.loc[num_db_records:].iterrows():
 			model = Student()
 			model.roll_no = row['Roll Number'].upper()
-			model.course_id = course_dict[row['MSc Programme']]
+			course_id = course_dict[row['MSc Programme']]
+			model.batch = Batch.objects.get(id=course_id)
 			model.semester = semester[row['Semester']]
 			model.name = row['Name (as per college record)'].upper()
 			model.email_id = row['Your E-Mail ID']
@@ -101,13 +102,14 @@ def update_student_records(last_logged_time):
 			model.mentor_email_id = row['Email of the Mentor']
 			model.domain_key_word = row["Project's Domain Key words"]
 			model.project_title = row['Tentative Project Title']
-			model.join_date = row['Joined Date']
+			#model.join_date = "{dt.year}/{dt.month}/{dt.date}".format(dt = datetime.strptime(row['Joined Date'], '%m/%d/%Y'))
+			model.join_date = datetime.now()
 			model.session = VMS_Session.objects.get(is_current=1)
 			model.save()
 	except IndexError:
 		pass
 	# Update the
-	update_last_check_time(GoogleSheetConfigKeys.StudentsFormName.value)
+	update_last_check_time(GoogleSheetConfigKeys.StudentSheetName.value)
 
 
 def update_report_submission_status(last_logged_time):
@@ -117,10 +119,9 @@ def update_report_submission_status(last_logged_time):
 
 	:return: None
 	'''
-	# report_submission_sheet = 'https://docs.google.com/spreadsheets/d/1sZGYNcdb0SFAI3LY1hBlnC9YjUNytcmh-ng_pO_-jwA/edit#gid=459423118'
 	config_manager = ConfigurationManager.get_instance()
-	report_submission_sheet = config_manager.get_config('ReportFormName')
-	workbook = authorize_open_sheet(report_submission_sheet)
+	report_submission_url = config_manager.get_config('ReportSubmissionSheetURL')
+	workbook = authorize_open_sheet(report_submission_url)
 	if workbook is None:
 		print("Report Submission Sheet cannot be opened. Debug further for more information.")
 		return
@@ -144,14 +145,13 @@ def update_report_submission_status(last_logged_time):
 	except IndexError:
 		print("Index error in forum")
 	# Update the
-	update_last_check_time(GoogleSheetConfigKeys.ReportSubmissionFormName.value)
+	update_last_check_time(GoogleSheetConfigKeys.ReportSubmissionSheetName.value)
 
 def update_last_check_time(workbook_name):
-	'''
+	'''Update Last Checked Timestamp
+
 	Sets the last check time in the Configuration to the current time for the given workbook_name
-
 	:param workbook_name: Local name of the workbook to update.
-
 	:return: None
 	'''
 	config_name = workbook_name + '_last_update'
@@ -187,7 +187,7 @@ def can_update_sheet(sheet, sheet_name):
 	return False
 
 
-def authorize_open_sheet(sheet_name):
+def authorize_open_sheet(sheet_url):
 	"""Authorizes the user and returns an instance of the worksheet specified by the sheet_url.
 
 	:param sheet_url: URL pointing to the sheet in drive.
@@ -197,7 +197,7 @@ def authorize_open_sheet(sheet_name):
 	SCOPE = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive','https://www.googleapis.com/auth/spreadsheets']
 	credentials = ServiceAccountCredentials.from_json_keyfile_name('data/VMSServiceAccountCredentials.json', SCOPE)
 	gc = gspread.authorize(credentials)
-	workbook = gc.open(sheet_name)
+	workbook = gc.open_by_url(sheet_url)
 	return workbook
 
 def update_database(last_logged_time):
@@ -206,4 +206,4 @@ def update_database(last_logged_time):
 	"""
 	update_faculty_records(last_logged_time)
 	update_student_records(last_logged_time)
-	update_report_submission_status(last_logged_time)
+	#update_report_submission_status(last_logged_time)

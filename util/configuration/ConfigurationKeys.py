@@ -8,11 +8,11 @@ class GoogleSheetConfigKeys(Enum):
 	Contains the Keys used with reference at the Google Sheet details
 	'''
 	# This is for Students Form
-	StudentsFormName = 'StudentInternshipDetails'
-	StudentsFormURL = 'StudentsFormURL'
+	StudentSheetName = 'StudentSheetName'
+	StudentSheetURL = 'StudentSheetURL'
 	# This is for Faculty Form
-	FacultyFormName = 'FacultyInformation'
-	FacultyFormURL = 'FacultyFormURL'
+	FacultySheetName = 'FacultySheetName'
+	FacultySheetURL = 'FacultySheetURL'
 	# This is for Report Submission Status
-	ReportSubmissionFormName = 'ProjectReportDetails'
-	ReportSubmissionFormURL = 'ReportSubmissionFormURL'
+	ReportSubmissionSheetName = 'ReportSubmissionSheetName'
+	ReportSubmissionSheetURL = 'ReportSubmissionSheetURL'
