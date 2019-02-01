@@ -135,8 +135,9 @@ class User(models.Model):
 	)
 
 	#Foreign Keys
-	user = models.ForeignKey(
+	user = models.OneToOneField(
 		Faculty,
+		primary_key=True,
 		on_delete=models.CASCADE
 	)
 	session = models.ForeignKey(
@@ -156,6 +157,7 @@ class User(models.Model):
 	)
 	logged_in_time = models.DateTimeField(
 		null=True
+
 	)
 	# As seperate schema for tutor has been removed User will carry these fields for now
 	isIDFSent = models.IntegerField(
@@ -240,8 +242,9 @@ class Batch(models.Model):
 		on_delete=models.CASCADE
 	)
 	# A batch is related to a user who IS a tutor
-	tutor = models.ForeignKey(
+	tutor = models.OneToOneField(
 		User,
+		primary_key=True,
 		on_delete=models.CASCADE
 	)
 	# Feilds
@@ -421,8 +424,9 @@ class GuideStudentMap(models.Model):
 	)
 	# Should only default to null.
 	# Why should this be -1. Defies the concept of ForeignKey.
-	user = models.ForeignKey(
+	user = models.OneToOneField(
 		User,
+		primary_key=True,
 		on_delete=models.CASCADE,
 		default="-1"
 		)

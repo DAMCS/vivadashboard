@@ -62,7 +62,7 @@ def index(request):
 		user_object.save()
 	
 	if user_object.user_role == UserRoles.Tutor.value:
-		course_object = Batch.object.select_related('course').get(user_id=user_id)
+		course_object = Batch.objects.select_related('course').get(tutor_id=user_id)
 		course_name = course_object.course_name
 		isIDFSent = user_object.isIDFSent
 		isRSDFSent = user_object.isRSDFSent
@@ -126,7 +126,7 @@ def config(request):
 
 	faculty_object = Faculty.objects.get(employee_id=user_id)
 	user_object = User.objects.select_related('user').get(user_id=user_id)
-	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	course_object = Batch.objects.select_related('course').get(tutor_id=user_id)
 	user_name = faculty_object.name
 	isIDFSent=0
 	isRSDFSent=0
@@ -175,7 +175,7 @@ def guide_allot(request):
 	
 	faculty_object = Faculty.objects.get(employee_id=user_id)
 	user_object = User.objects.select_related('user').get(user_id=user_id)
-	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	course_object = Batch.objects.select_related('course').get(tutor_id=user_id)
 	user_name = faculty_object.name
 	
 	isIDFSent = 0
@@ -221,6 +221,7 @@ def guide_select(request):
 	query_results = Faculty.objects.all()
 	faculty_object = query_results.get(employee_id=user_id)
 	user_object = User.objects.select_related('user').get(user_id=user_id)
+	course_object = Batch.objects.select_related('course').get(tutor_id=user_id)
 
 	user_name = faculty_object.name
 	user_role = SessionHandler.get_user_role()
@@ -234,7 +235,7 @@ def guide_select(request):
 	elif user_role == UserRoles.Guest.value:
 		course_name = "Guest View"
 	else:
-		course_name = tutors[0].course.course_name
+		course_name = course_object.course_name
 		isIDFSent = user_object.isIDFSent
 		isRSDFSent = user_object.isRSDFSent
 
@@ -279,7 +280,7 @@ def student_list(request):
 
 	user_object = User.objects.select_related('faculty').get(user_id=user_id)
 	faculty_object = Faculty.objects.get(employee_id=user_id)
-	course_object = Batch.object.select_related('course').get(user_id=user_id)
+	course_object = Batch.objects.select_related('course').get(tutor_id=user_id)
 	user_name = faculty_object.name
 
 	isIDFSent = 0
